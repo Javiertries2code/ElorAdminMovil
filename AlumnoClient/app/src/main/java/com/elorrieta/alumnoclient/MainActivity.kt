@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.buttonLogin)
             .setOnClickListener {
-                socketClient!!.doLogin("patata")
+                socketClient!!.doLogin("teacher1@email.com", "123")
                 Thread.sleep(3000) // A little delay...
             }
 

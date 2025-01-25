@@ -4,7 +4,8 @@ import android.app.Activity
 import android.util.Log
 import android.widget.TextView
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.entity.Alumno
+
+import com.elorrieta.alumnoclient.entity.Student
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.socketsio.sockets.config.Events
 import com.google.gson.Gson
@@ -14,14 +15,20 @@ import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONObject
 
-
 /**
  * The client
  */
 class SocketClient (private val activity: Activity) {
 
+    //at home generally  192.168.1.40
+
     // Server IP:Port
-    private val ipPort = "http://10.0.22.247:4000"
+
+    private val port = "4006"
+    private val ip = "192.168.1.40".trim() // Porsi la lio al cortapegar :-P
+    private val ipPort = "http://$ip:$port"
+
+
     private val socket: Socket = IO.socket(ipPort)
 
     // For log purposes
@@ -57,42 +64,39 @@ class SocketClient (private val activity: Activity) {
             // We extract the field 'message'
             val message = response.getString("message") as String
 
-            // We parse the JSON into an Alumno because... ¯_(ツ)_/¯
+            // We parse the JSON into an Student because... ¯_(ツ)_/¯
             val gson = Gson()
             val jsonObject = gson.fromJson(message, JsonObject::class.java)
-            val id = jsonObject["id"].asInt
+            val idStudent = jsonObject["id"].asInt
             val name = jsonObject["name"].asString
-            val surname = jsonObject["surname"].asString
-            val pass = jsonObject["pass"].asString
-            val edad = jsonObject["edad"].asInt
+            val lastName = jsonObject["surname"].asString
+            val passwordNotHashed = jsonObject["password"].asInt
 
-            val alumno = Alumno(id, name, surname, pass, edad)
+            val alumno = Student()
+            alumno.idStudent = idStudent
+            alumno.name = name
+            alumno.lastName = lastName
+            alumno.passwordNotHashed = passwordNotHashed
 
-            // And... we list the Alumno in the list and in the Log
+            // And... we list the Student in the list and in the Log
             activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login:$alumno")
             Log.d(tag, "Answer to Login: $alumno")
         }
 
         // Event called when the socket gets an answer from a getAll.
         // We get the message and print it.
-        socket.on(Events.ON_GET_ALL_ANSWER.value) { args ->
+        socket.on(Events.ON_GET_ALL_STUDENTS.value) { args ->
 
             // The response from the server is a JSON
             val response = args[0] as JSONObject
 
-            // The answer should be like this:
-            // [
-            // {"id":0,"name":"patata","surname":"potato","pass":"pass","edad":20},
-            // {"id":1,"name":"patata2","surname":"potato2","pass":"pass2","edad":22},
-            // {"id":2,"name":"patata3","surname":"potato3","pass":"pass3","edad":23}
-            // ]
-            // We extract the field 'message'
+
             val message = response.getString("message") as String
 
-            // We parse the JSON. Note we use Alumno to parse the server response
+            // We parse the JSON. Note we use Student to parse the server response
             val gson = Gson()
-            val itemType = object : TypeToken<List<Alumno>>() {}.type
-            val list = gson.fromJson<List<Alumno>>(message, itemType)
+            val itemType = object : TypeToken<List<Student>>() {}.type
+            val list = gson.fromJson<List<Student>>(message, itemType)
 
             // The logging
             activity.findViewById<TextView>(R.id.textView).append("\nAnswer to getAll:$list")
@@ -124,18 +128,23 @@ class SocketClient (private val activity: Activity) {
 
     // This method is called when we want to login. We get the userName,
     // put in into an MessageOutput, and convert it into JSON to be sent
-    fun doLogin(userName: String) {
-        val message = MessageInput(userName) // The server is expecting a MessageInput
+    fun doLogin(email: String, password: String) {
+
+        val message = JSONObject().apply {
+            put("email", email)
+            put("password", password)
+        }
+
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
 
         // Log traces
-        activity.findViewById<TextView>(R.id.textView).append("\nAttempt of login - $message")
-        Log.d (tag, "Attempt of login - $message")
+        activity.findViewById<TextView>(R.id.textView).append("\nAttempt of login with credentials- $message")
+        Log.d (tag, "Attempt of login witrh credentials  - $message")
     }
 
     // This method is called when we want to getAll the Alumno.
     fun doGetAll() {
-        socket.emit(Events.ON_GET_ALL.value)
+        socket.emit(Events.ON_GET_ALL_STUDENTS.value)
 
         // Log traces
         activity.findViewById<TextView>(R.id.textView).append("\nAttempt of getAll...")
