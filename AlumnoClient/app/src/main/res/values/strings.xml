@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">AlumnoClient</string>
+    <string name="app_name">ElorrietaClient</string>
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
     <string name="say_hi">Login</string>
     <string name="actions">Actions....</string>
-    <string name="answer_me">Get All</string>
+    <string name="answer_me">Get All Tachers</string>
     <string name="send_object">Logout</string>
+    <string name="getTechers">get Students</string>
 </resources>

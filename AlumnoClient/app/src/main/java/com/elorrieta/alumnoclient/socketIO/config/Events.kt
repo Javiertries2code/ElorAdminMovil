@@ -5,7 +5,6 @@ package com.elorrieta.socketsio.sockets.config
  * the same class as in the Java Server
  */
 enum class Events(val value: String) {
-
     ON_LOGIN ("onLogin"),
     ON_LOGOUT ("onLogout"),
 
@@ -14,6 +13,7 @@ enum class Events(val value: String) {
     ON_LOGIN_ANSWER ("onLoginAnswer"),
 
     ON_NOT_REGISTERED ("notRegistered"),
+    ON_NOT_REGISTERED_ANSWER ("notRegistered"),
 
     ON_LOGIN_USER_NOT_FOUND_ANSWER ("onLoginUsernotFound"),
 
@@ -31,6 +31,8 @@ enum class Events(val value: String) {
 
 
 
+    ON_GET_FULL_STUDENT("onGetWholeStudentInfo"),
+    ON_GET_FULL_STUDENT_ANSWER("onGetWholeStudentInfoAnswer"),
 
 
 
@@ -43,11 +45,11 @@ enum class Events(val value: String) {
     ON_GET_ALL_MEETINGS ("onGetAllMeetings"),
     ON_GET_ALL_MEETINGS_ANSWER ("onGetAllMeetingsAnswer"),
 
-    ON_GET_ALL_SCHEDULES ("onGetAllSchedules"),
-    ON_GET_ALL_SCHEDULES_ANSWER ("onGetAllSchedulesAnswer"),
-
     ON_GET_ALL_COURSES ("onGetAllCourses"),
     ON_GET_ALL_COURSES_ANSWER ("onGetAllCoursesAnswer"),
+
+    ON_GET_ALL_COURSES_OF_STUDENT ("onGetAllStudentCourses"),
+    ON_GET_ALL_COURSES_OF_STUDENT_ANSWER ("onGetAllStudentCoursesAnswer"),
 
     ON_GET_ALL_SUBJECTS ("onGetAllSubjects"),
     ON_GET_ALL_SUBJECTS_ANSWER ("onGetAllSubjectsAnswer"),
@@ -70,19 +72,11 @@ enum class Events(val value: String) {
     ON_GET_ONE_MEETING_REQUEST ("onGetOneMeetingRequest"),
     ON_GET_ONE_MEETING_REQUEST_ANSWER ("onGetOneMeetingRequestAnswer"),
 
-    ON_GET_ONE_TEACHER ("onGetOneTeacher"),
-    ON_GET_ONE_TEACHER_ANSWER ("onGetOneTeacherAnswer"),
+    ON_UPDATE_ONE_MEETING_REQUEST ("onUpdateOneMeetingRequest"),
+    ON_UPDATE_ONE_MEETING_REQUEST_ANSWER ("onUpdateOneMeetingRequestAnswer"),
 
-    ON_GET_ONE_STUDENT ("onGetOneStudent"),
-    ON_GET_ONE_STUDENT_ANSWER ("onGetOneStudentAnswer"),
-
-    ON_GET_ONE_REGISTRATION ("onGetOneRegistration"),
-    ON_GET_ONE_REGISTRATION_ANSWER ("onGetOneRegistrationAnswer"),
-
-    ON_GET_ALL_OF_ONE_REGISTRATIONS_OF_STUDENT ("onGetAllOfOneRegistrationsOfStudent"),
-    ON_GET_ALL_OF_ONE_REGISTRATIONS_OF_STUDENT_ANSWER ("onGetAllOfOneRegistrationsOfStudentAnswer");
-
-
+    ON_DELETE_ONE_MEETING_REQUEST ("onDeleteOneMeetingRequest"),
+    ON_DELETE_ONE_MEETING_REQUEST_ANSWER ("onDeleteOneMeetingRequestAnswer");
 
 
 }

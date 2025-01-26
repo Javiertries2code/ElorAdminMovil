@@ -12,6 +12,8 @@ data class Teacher(
     var address: String? = null,
     var phone1: String? = null,
     var phone2: String? = null,
+    var user_type: String? = null,
+
     var subjects: Set<Subject>? = emptySet(),
     var meetingRequestsForIdHost: Set<MeetingRequest>? = emptySet(),
     var meetingRequestsForIdGuest: Set<MeetingRequest>? = emptySet()

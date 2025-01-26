@@ -3,8 +3,8 @@ package com.elorrieta.alumnoclient.entity
 data class Student(
     var idStudent: Int? = null,
     val registered: Boolean? = null,
-    val email: String? = null,
-    val passwordHashed: String? = null,
+    var email: String? = null,
+    var passwordHashed: String? = null,
     var passwordNotHashed: Int? = null,
     val dni: String? = null,
     var name: String? = null,
@@ -13,5 +13,6 @@ data class Student(
     val phone1: String? = null,
     val phone2: String? = null,
     val foto: ByteArray? = null,
+    var user_type: String? = null,
     val registrations: Set<Any> = emptySet()
 )
