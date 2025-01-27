@@ -38,9 +38,9 @@ class MeetingSocket(private val activity: Activity) {
             val itemType = object : TypeToken<List<Meeting>>() {}.type
             val meetings = gson.fromJson<List<Meeting>>(message, itemType)
 
-            activity.runOnUiThread {
-                activity.findViewById<TextView>(R.id.textView).append("\nStudents: $meetings")
-            }
+//            activity.runOnUiThread {
+//                activity.findViewById<TextView>(R.id.textView).append("\nStudents: $meetings")
+//            }
             Log.d(tag, "Received students: $meetings")
         }
     }

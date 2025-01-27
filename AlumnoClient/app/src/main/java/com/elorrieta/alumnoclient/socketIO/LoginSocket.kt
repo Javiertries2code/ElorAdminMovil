@@ -74,7 +74,7 @@ class LoginSocket(private val activity: Activity) {
                 }
             }
 
-            activity.findViewById<TextView>(R.id.textView).append("\nNot Registered: $user")
+           // activity.findViewById<TextView>(R.id.textView).append("\nNot Registered: $user")
             Log.d("logNotRegistered", "Not Registered: $user")
             Log.d("logNotRegistered", "Event received with message: ${user.toString()}")
         }
@@ -107,7 +107,7 @@ class LoginSocket(private val activity: Activity) {
                 Toast.makeText(activity, "Login correcto \n Bienvenido ${alumno.name}", Toast.LENGTH_SHORT).show()
             }
 
-            activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login:$alumno")
+          //  activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login:$alumno")
             Log.d(tag, "Answer to Login: $alumno")
         }
 
@@ -121,7 +121,7 @@ class LoginSocket(private val activity: Activity) {
         }
 
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
-        activity.findViewById<TextView>(R.id.textView).append("\nAttempt of login with credentials- $message")
+       // activity.findViewById<TextView>(R.id.textView).append("\nAttempt of login with credentials- $message")
         Log.d(tag, "Attempt of login with credentials - $message")
     }
 
@@ -134,7 +134,7 @@ class LoginSocket(private val activity: Activity) {
        SessionManager.logout()
 
         socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))
-        activity.findViewById<TextView>(R.id.textView).append("\nAttempt of Logout - $message")
+       // activity.findViewById<TextView>(R.id.textView).append("\nAttempt of Logout - $message")
         Log.d(tag, "Attempt of logout - $message")
     }
 
@@ -144,7 +144,7 @@ class LoginSocket(private val activity: Activity) {
         }
 
         socket.emit(Events.ON_RESET_PASSWORD.value, Gson().toJson(message))
-        activity.findViewById<TextView>(R.id.textView).append("\nAttempt of reset password with email- $message")
+      //  activity.findViewById<TextView>(R.id.textView).append("\nAttempt of reset password with email- $message")
         Log.d(tag, "Attempt of reset password with email - $message")
     }
 

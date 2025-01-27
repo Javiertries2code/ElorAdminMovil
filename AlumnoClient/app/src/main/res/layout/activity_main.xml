@@ -7,24 +7,43 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ScrollView
-        android:id="@+id/ScrollView01"
-        android:layout_width="4004dp"
-        android:layout_height="302dp"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
+
+        android:layout_width="500.dp"
+        android:layout_height="600.dp"
+        android:textSize="20sp"
+
+        android:inputType="text|textMultiLine"
+        android:text="@string/actions"
+        tools:ignore="TextViewEdits,TouchTargetSizeCheck"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.054">
+
+        tools:layout="@layout/fragment_login"/>
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="4004dp"
+        android:layout_height="302dp"
+        android:contentDescription="Description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.181">
+
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-
             android:inputType="text|textMultiLine"
+
             android:text="@string/actions"
+            android:textSize="20sp"
             tools:ignore="TextViewEdits,TouchTargetSizeCheck" />
     </ScrollView>
 
