@@ -1,14 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TeacherProfileFragment">
+    android:paddingBottom="@dimen/fragment_vertical_margin"
+    android:paddingLeft="@dimen/fragment_horizontal_margin"
+    android:paddingRight="@dimen/fragment_horizontal_margin"
+    android:paddingTop="@dimen/fragment_vertical_margin"
+    android:background="@color/rojo"
+    tools:context=".LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <EditText
+        android:id="@+id/teacherProfileName"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:inputType="text"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfileSurname"
+        android:hint="introduzca su nombre" />
+
+    <EditText
+        android:id="@+id/teacherProfileSurname"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:inputType="text"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfileName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfileEmail"
+        android:hint="Introduzca sus apellidos" />
+
+    <EditText
+        android:id="@+id/teacherProfileEmail"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:inputType="text"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfileSurname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfileDni"
+        android:hint="Introduzca su mail" />
+
+    <EditText
+        android:id="@+id/teacherProfileDni"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:inputType="text"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfileEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfilePhone1"
+        android:hint="Introduzca su DNI" />
+
+    <EditText
+        android:id="@+id/teacherProfilePhone1"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:inputType="phone"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfileDni"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfilePhone2"
+        android:hint="Teléfono 1" />
+
+    <EditText
+        android:id="@+id/teacherProfilePhone2"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:inputType="phone"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfilePhone1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfileCiclos"
+        android:hint="Teléfono 2" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/teacherProfileCiclos"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:text="Ccursos"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfilePhone2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfilePassword" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/teacherProfilePassword"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:inputType="textPassword"
+        android:maxLength="8"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfileCiclos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfileFoto"
+        android:hint="Ingrese su contraseña" />
+
+    <Button
+        android:id="@+id/teacherProfileFoto"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/sacar_foto"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfilePassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/teacherProfileSubmit" />
+
+    <Button
+        android:id="@+id/teacherProfileSubmit"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/enviar"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfileFoto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

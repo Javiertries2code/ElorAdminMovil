@@ -14,88 +14,101 @@
 
     tools:context=".LoginFragment">
 
+        <TextView
+            android:id="@+id/registertitulo"
+            android:layout_width="300dp"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            android:inputType="text"
+
+            android:text="Panel Registro"
+            app:layout_constraintBottom_toTopOf="@id/registerName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/registerName"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="text"
+            android:layout_height="48dp"
             android:background="@color/white"
+            android:hint="introduzca su nombre"
 
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/registerSurname"
-            android:hint="introduzca su nombre" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registertitulo" />
 
         <EditText
             android:id="@+id/registerSurname"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="text"
+            android:layout_height="48dp"
             android:background="@color/white"
+            android:hint="Introduzca sus apellidos"
 
-            app:layout_constraintTop_toBottomOf="@id/registerName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/registerEmail"
-            android:hint="Introduzca sus apellidos" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerName" />
 
         <EditText
             android:id="@+id/registerEmail"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="text"
+            android:layout_height="48dp"
             android:background="@color/white"
+            android:hint="Introduzca su mail"
 
-            app:layout_constraintTop_toBottomOf="@id/registerSurname"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/registerDni"
-            android:hint="Introduzca su mail" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerSurname" />
 
         <EditText
             android:id="@+id/registerDni"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="text"
+            android:layout_height="48dp"
             android:background="@color/white"
+            android:hint="Introduzca su DNI"
 
-            app:layout_constraintTop_toBottomOf="@id/registerEmail"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/registerPhone1"
-            android:hint="Introduzca su DNI" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerEmail" />
 
         <EditText
             android:id="@+id/registerPhone1"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="phone"
+            android:layout_height="48dp"
             android:background="@color/white"
+            android:hint="Teléfono 1"
 
-            app:layout_constraintTop_toBottomOf="@id/registerDni"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="phone"
             app:layout_constraintBottom_toTopOf="@id/registerPhone2"
-            android:hint="Teléfono 1" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerDni" />
 
         <EditText
             android:id="@+id/registerPhone2"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="phone"
+            android:layout_height="48dp"
             android:background="@color/white"
+            android:hint="Teléfono 2"
 
-            app:layout_constraintTop_toBottomOf="@id/registerPhone1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:inputType="phone"
             app:layout_constraintBottom_toTopOf="@id/registerCiclos"
-            android:hint="Teléfono 2" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerPhone1" />
 
         <TextView
             android:id="@+id/registerCiclos"
             android:layout_width="300dp"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:text="Ccursos"
             android:background="@color/white"
 
@@ -107,22 +120,28 @@
         <EditText
             android:id="@+id/registerNewPassword"
             android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="textPassword"
-            android:maxLength="8"
+            android:layout_height="48dp"
             android:background="@color/white"
+            android:hint="Ingrese su  nuevacontraseña"
+            android:inputType="textPassword"
 
-            app:layout_constraintTop_toBottomOf="@id/registerCiclos"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:maxLength="8"
             app:layout_constraintBottom_toTopOf="@id/registerFoto"
-            android:hint="Ingrese su contraseña" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerCiclos" />
 
         <Button
             android:id="@+id/registerFoto"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:enabled="false"
+            android:enabled="true"
+            android:textColor="@color/rojo"
+            android:clickable="true"
+            android:textSize="22sp"
+
+
+
             android:text="@string/sacar_foto"
             android:background="@color/white"
 
@@ -135,7 +154,13 @@
             android:id="@+id/registerSubmit"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:enabled="false"
+            android:enabled="true"
+            android:textColor="@color/rojo"
+            android:clickable="true"
+            android:textSize="22sp"
+
+
+
             android:text="@string/enviar"
             android:background="@color/white"
 

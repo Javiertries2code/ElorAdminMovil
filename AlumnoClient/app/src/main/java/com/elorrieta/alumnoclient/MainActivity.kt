@@ -20,6 +20,7 @@ import com.elorrieta.alumnoclient.socketIO.SocketClient
 import com.elorrieta.alumnoclient.socketIO.StudentSocket
 import com.elorrieta.alumnoclient.socketIO.TeacherSocket
 import androidx.lifecycle.lifecycleScope
+import com.elorrieta.alumnoclient.socketIO.RegisterSocket
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -30,8 +31,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var socketClient: SocketClient
     private lateinit var studentSocket: StudentSocket
     private lateinit var loginSocket: LoginSocket
-    private lateinit var meetingSocket: MeetingSocket
+ //   private lateinit var meetingSocket: MeetingSocket
     private lateinit var teacherSocket: TeacherSocket
+    private lateinit var registerSocket: RegisterSocket
+
+
     private val   mainActivity = "mainActivity"
 
 
@@ -40,7 +44,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        loginSocket = LoginSocket(this) // Inicializar LoginSocket
+
+        // Inicializar Sockets
+        socketClient= SocketClient(this)
+         studentSocket= StudentSocket(this)
+       // meetingSocket= MeetingSocket(this)
+        teacherSocket = TeacherSocket(this)
+        registerSocket = RegisterSocket(this)
+        loginSocket = LoginSocket(this)
+        loginSocket = LoginSocket(this)
+        loginSocket = LoginSocket(this)
+        loginSocket = LoginSocket(this)
+
+        /*
+        It migh appear quite confusing at first
+
+        here is the thing, every socket created, its getting it from the SockerManager, a singleton pointing to the same place,
+        hence once we do here socket client connect, the connecion remains oopnened.
+
+        later one every fragment gets its own socket (which in real is the same, butit facilitates the separation of code, on the flipside of having a bunch
+        of sockets runing in memory... but noone spoke about efiiciency so far)
+         */
+        socketClient = SocketClient(this).apply {
+            connect()
+        }
 
         if (savedInstanceState == null) {
             val bundle =
@@ -61,27 +88,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        socketClient = SocketClient(this).apply {
-            connect()
-        }
 
-      // socketClient = SocketClient(this)
-        studentSocket = StudentSocket(this)
-        //El lonffragment actitvy, he creado loginSocket, pasandole el fragment activity
-        //la conexion debera er la misma pq cada socket la recibe del singleton
-
-       loginSocket = LoginSocket(this)
-        meetingSocket = MeetingSocket(this)
-        teacherSocket = TeacherSocket(this)
-
-
-
-/*Disconnect already in on destroy event so not in button anymore
-        findViewById<Button>(R.id.buttonDisconnect)
-            .setOnClickListener {
-                socketClient!!.disconnect()
-                Thread.sleep(3000) // A little delay...
-            }*/
 
 
         findViewById<Button>(R.id.login)
@@ -122,6 +129,20 @@ class MainActivity : AppCompatActivity() {
 
     fun getLoginSocket(): LoginSocket {
         return loginSocket
+    }
+
+    fun getStudentSocket(): StudentSocket {
+        return studentSocket
+    }
+
+    fun getTeacherSocket(): TeacherSocket {
+        return teacherSocket
+
+    }
+
+    fun getRegisterSocket(): RegisterSocket {
+        return registerSocket
+
     }
 
     // Anctivity lifecycle, better close the socket...

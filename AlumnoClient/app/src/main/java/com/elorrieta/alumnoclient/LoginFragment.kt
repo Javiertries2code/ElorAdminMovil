@@ -24,12 +24,14 @@ class LoginFragment : Fragment() {
     private var name: String? = null
     private var password: String? = null
     val loginFragment: String = "loginFragment"
+    private lateinit var loginSocket: LoginSocket
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             name = it.getString(NAME_BUNDLE)
             password = it.getString(PASSWORD_BUNDLE)
+            loginSocket = (requireActivity() as MainActivity).getLoginSocket()
 
             Log.d(loginFragment, "Name: ${name.orEmpty()}")
             Log.d(loginFragment, "Password: ${password.orEmpty()}")
@@ -62,7 +64,7 @@ class LoginFragment : Fragment() {
 
 
 //As my fragment comes  straight from main, that is a appcompact activity... it should works
-        val loginSocket = (requireActivity() as MainActivity).getLoginSocket() // Acceder a la instancia
+        //val loginSocket = (requireActivity() as MainActivity).getLoginSocket() // Acceder a la instancia
 
         if (loginButton == null) {
             Log.e(loginFragment, "El botón btnloginRegister no se encontró en el layout.")

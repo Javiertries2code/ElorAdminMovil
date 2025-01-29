@@ -1,6 +1,7 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
@@ -19,7 +20,7 @@ import org.json.JSONObject
 
 
 
-class StudentSocket(private val activity: Activity) {
+class StudentSocket(private val context: Context) {
 
     private val socket: Socket = SocketManager.getSocket() // Reutiliza el socket
     private val tag = "StudentSocket"
@@ -33,9 +34,7 @@ class StudentSocket(private val activity: Activity) {
             val itemType = object : TypeToken<List<Student>>() {}.type
             val students = gson.fromJson<List<Student>>(message, itemType)
 
-            activity.runOnUiThread {
-                activity.findViewById<TextView>(R.id.textView).append("\nStudents: $students")
-            }
+
             Log.d(tag, "Received students: $students")
         }
     }
