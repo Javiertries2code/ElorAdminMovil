@@ -1,5 +1,7 @@
 package com.elorrieta.alumnoclient.entity
 
+import java.io.Serializable
+
 data class Student(
     var idStudent: Int? = null,
     val registered: Boolean? = null,
@@ -15,4 +17,4 @@ data class Student(
     val foto: ByteArray? = null,
     var user_type: String? = null,
     val registrations: Set<Any> = emptySet()
-)
+): Serializable

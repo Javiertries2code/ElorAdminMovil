@@ -1,5 +1,7 @@
 package com.elorrieta.alumnoclient.entity
 
+import java.io.Serializable
+
 data class Teacher(
     var idTeacher: Int? = null,
     var registered: Boolean? = null,
@@ -17,4 +19,4 @@ data class Teacher(
     var subjects: Set<Subject>? = emptySet(),
     var meetingRequestsForIdHost: Set<MeetingRequest>? = emptySet(),
     var meetingRequestsForIdGuest: Set<MeetingRequest>? = emptySet()
-)
+): Serializable

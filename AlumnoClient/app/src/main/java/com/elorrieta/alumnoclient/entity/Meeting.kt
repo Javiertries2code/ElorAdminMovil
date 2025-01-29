@@ -1,5 +1,7 @@
 package com.elorrieta.alumnoclient.entity
 
+import java.io.Serializable
+
 data class Meeting(
     val idMeeting: Int? = null,
     val dayWeek: String? = null,
@@ -13,4 +15,4 @@ data class Meeting(
     val remainingAcceptance: Int? = null,
     val topic: String? = null,
     val meetingRequests: Set<Any> = emptySet()
-)
+): Serializable

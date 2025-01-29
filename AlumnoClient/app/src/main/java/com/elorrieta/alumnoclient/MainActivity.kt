@@ -2,6 +2,7 @@ package com.elorrieta.alumnoclient
 
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,22 +11,28 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.elorrieta.alumnoclient.LoginFragment.Companion.NAME_BUNDLE
 import com.elorrieta.alumnoclient.LoginFragment.Companion.PASSWORD_BUNDLE
-import com.elorrieta.alumnoclient.session.SessionManager
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
 import com.elorrieta.alumnoclient.socketIO.MeetingSocket
 import com.elorrieta.alumnoclient.socketIO.SocketClient
 import com.elorrieta.alumnoclient.socketIO.StudentSocket
 import com.elorrieta.alumnoclient.socketIO.TeacherSocket
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private var socketClient : SocketClient? = null
-    private var studentSocket : StudentSocket? = null
-    private var loginSocket : LoginSocket? = null
-    private var meetingSocket : MeetingSocket? = null
-    private var teacherSocket : TeacherSocket? = null
+   
+
+    private lateinit var socketClient: SocketClient
+    private lateinit var studentSocket: StudentSocket
+    private lateinit var loginSocket: LoginSocket
+    private lateinit var meetingSocket: MeetingSocket
+    private lateinit var teacherSocket: TeacherSocket
+    private val   mainActivity = "mainActivity"
 
 
 
@@ -33,14 +40,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        loginSocket = LoginSocket(this) // Inicializar LoginSocket
 
         if (savedInstanceState == null) {
             val bundle =
-                bundleOf(NAME_BUNDLE to "Email@ROOM.com", PASSWORD_BUNDLE to "savedpassword Room")
+                bundleOf(NAME_BUNDLE to "teacher1@email.com", PASSWORD_BUNDLE to "123")
 
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                add<LoginFragment>(R.id.fragmentContainer, args = bundle)
+                replace<LoginFragment>(R.id.fragmentContainer, args = bundle)
+
             }
         }
 
@@ -50,54 +59,77 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        socketClient = SocketClient(this)
+
+
+        socketClient = SocketClient(this).apply {
+            connect()
+        }
+
+      // socketClient = SocketClient(this)
         studentSocket = StudentSocket(this)
-        loginSocket = LoginSocket(this)
+        //El lonffragment actitvy, he creado loginSocket, pasandole el fragment activity
+        //la conexion debera er la misma pq cada socket la recibe del singleton
+
+       loginSocket = LoginSocket(this)
         meetingSocket = MeetingSocket(this)
         teacherSocket = TeacherSocket(this)
 
 
-        findViewById<Button>(R.id.buttonConnect)
-            .setOnClickListener {
-                socketClient!!.connect()
-                Thread.sleep(3000) // A little delay...
-            }
 
+/*Disconnect already in on destroy event so not in button anymore
         findViewById<Button>(R.id.buttonDisconnect)
             .setOnClickListener {
                 socketClient!!.disconnect()
                 Thread.sleep(3000) // A little delay...
-            }
+            }*/
 
-        findViewById<Button>(R.id.buttonLogin)
+
+        findViewById<Button>(R.id.login)
             .setOnClickListener {
-                loginSocket!!.doLogin("teacher1@email.com", "123")
-                Thread.sleep(3000) // A little delay...
-            }
+                loginSocket.doLogin("teacher1@email.com", "123")
+                Log.d(mainActivity, "it got clicked on main activity")
+                lifecycleScope.launch {
+                    delay(3000) // Espera 3 segundos sin bloquear la UI
+                    loginSocket.doLogin("teacher1@email.com", "123")
+                }                }
+
 
         findViewById<Button>(R.id.btnResetPasswrod)
             .setOnClickListener {
                 loginSocket!!.resetPassword("teacher1@email.com" )
-                Thread.sleep(3000) // A little delay...
-            }
+                lifecycleScope.launch {
+                    delay(3000) // Espera 3 segundos sin bloquear la UI
+                    loginSocket.doLogin("teacher1@email.com", "123")
+                }                }
 
         findViewById<Button>(R.id.buttonGetAll)
             .setOnClickListener {
                 studentSocket!!.doGetAll()
-                Thread.sleep(3000) // A little delay...
-            }
+                lifecycleScope.launch {
+                    delay(3000) // Espera 3 segundos sin bloquear la UI
+                    loginSocket.doLogin("teacher1@email.com", "123")
+                }                }
 
         findViewById<Button>(R.id.buttonLogout)
             .setOnClickListener {
                 loginSocket!!.doLogout()
-                Thread.sleep(3000) // A little delay...
-            }
+                lifecycleScope.launch {
+                    delay(3000) // Espera 3 segundos sin bloquear la UI
+                    loginSocket.doLogin("teacher1@email.com", "123")
+                }                }
 
+    }
+
+    fun getLoginSocket(): LoginSocket {
+        return loginSocket
     }
 
     // Anctivity lifecycle, better close the socket...
     override fun onDestroy() {
         super.onDestroy()
-        socketClient!!.disconnect()
+        this.socketClient
+            .disconnect()
     }
+
+
 }

@@ -1,14 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterFragment">
+    android:paddingBottom="@dimen/fragment_vertical_margin"
+    android:paddingLeft="@dimen/fragment_horizontal_margin"
+    android:paddingRight="@dimen/fragment_horizontal_margin"
+    android:paddingTop="@dimen/fragment_vertical_margin"
+    android:background="@color/azulmarino"
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    tools:context=".LoginFragment">
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/registerName"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:inputType="text"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerSurname"
+            android:hint="introduzca su nombre" />
+
+        <EditText
+            android:id="@+id/registerSurname"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:inputType="text"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerEmail"
+            android:hint="Introduzca sus apellidos" />
+
+        <EditText
+            android:id="@+id/registerEmail"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:inputType="text"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerSurname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerDni"
+            android:hint="Introduzca su mail" />
+
+        <EditText
+            android:id="@+id/registerDni"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:inputType="text"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerEmail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerPhone1"
+            android:hint="Introduzca su DNI" />
+
+        <EditText
+            android:id="@+id/registerPhone1"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:inputType="phone"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerDni"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerPhone2"
+            android:hint="Teléfono 1" />
+
+        <EditText
+            android:id="@+id/registerPhone2"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:inputType="phone"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerPhone1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerCiclos"
+            android:hint="Teléfono 2" />
+
+        <TextView
+            android:id="@+id/registerCiclos"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:text="Ccursos"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerPhone2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerNewPassword" />
+
+        <EditText
+            android:id="@+id/registerNewPassword"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:inputType="textPassword"
+            android:maxLength="8"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerCiclos"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerFoto"
+            android:hint="Ingrese su contraseña" />
+
+        <Button
+            android:id="@+id/registerFoto"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/sacar_foto"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerNewPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/registerSubmit" />
+
+        <Button
+            android:id="@+id/registerSubmit"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/enviar"
+            android:background="@color/white"
+
+            app:layout_constraintTop_toBottomOf="@id/registerFoto"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
