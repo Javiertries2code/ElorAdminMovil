@@ -1,6 +1,8 @@
 package com.elorrieta.alumnoclient
 
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -9,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
@@ -22,6 +25,8 @@ import androidx.lifecycle.lifecycleScope
 import com.elorrieta.alumnoclient.socketIO.RegisterSocket
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import android.net.NetworkCapabilities
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -158,5 +163,22 @@ class MainActivity : AppCompatActivity() {
             .disconnect()
     }
 
+    fun isInternetAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+    }
 
-}
+    fun navigate(nextFragment: Fragment)
+    {
+
+     this.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, nextFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+    }
