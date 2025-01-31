@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.elorrieta.alumnoclient.entity.Student
 import com.elorrieta.alumnoclient.entity.Teacher
 import com.elorrieta.alumnoclient.session.SessionManager
 import com.elorrieta.alumnoclient.socketIO.RegisterSocket
+import com.google.android.material.appbar.MaterialToolbar
 
 private lateinit var thisSocket: RegisterSocket
 
@@ -53,6 +55,20 @@ class RegisterFragment : Fragment() {
         passwordEditText = view.findViewById(R.id.registerNewPassword)
         registerButton = view.findViewById(R.id.registerSubmit)
         registerCiclos = view.findViewById(R.id.registerCiclos)
+
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.registerToolbar)
+
+        // Configura el Toolbar como ActionBar
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+
+        // Configura el logo y el título
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayShowHomeEnabled(true) // Asegúrate de mostrar el logo
+            setLogo(R.drawable.elorrietalogo) // Reemplaza con el recurso de tu logo
+            setDisplayUseLogoEnabled(true) // Habilita el uso del logo
+            title = "Registro" // Establece el título
+        }
+
 
         val user = arguments?.getSerializable("user")
 

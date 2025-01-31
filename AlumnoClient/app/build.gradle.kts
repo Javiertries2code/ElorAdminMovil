@@ -54,6 +54,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+
+
+
     // SOCKET.IO
     implementation(libs.socket.io.client)
     implementation(libs.engine.io.client)

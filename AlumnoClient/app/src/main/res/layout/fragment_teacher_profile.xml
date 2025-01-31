@@ -13,41 +13,78 @@
     android:background="@color/rojo"
     tools:context=".LoginFragment">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/teacherToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/toolbarColor"
+        app:titleTextColor="@android:color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/teacherIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/avatar"
+            android:contentDescription="@string/userIcon"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="16dp" />
+
+        <TextView
+            android:id="@+id/teacherName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profesor"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="64dp" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/teacherToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/teacherMeetings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reuniones" />
+
+        <Button
+            android:id="@+id/teacherSchedules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Horarios"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/teacherMeetingRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buzón"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
     <EditText
         android:id="@+id/teacherProfileName"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:inputType="text"
         android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/teacherMeetings"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfileSurname"
         android:hint="introduzca su nombre" />
-
-    <EditText
-        android:id="@+id/teacherProfileSurname"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="text"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfileName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfileEmail"
-        android:hint="Introduzca sus apellidos" />
-
-    <EditText
-        android:id="@+id/teacherProfileEmail"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="text"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfileSurname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfileDni"
-        android:hint="Introduzca su mail" />
 
     <EditText
         android:id="@+id/teacherProfileDni"
@@ -55,71 +92,10 @@
         android:layout_height="60dp"
         android:inputType="text"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfileEmail"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfileName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfilePhone1"
         android:hint="Introduzca su DNI" />
-
-    <EditText
-        android:id="@+id/teacherProfilePhone1"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="phone"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfileDni"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfilePhone2"
-        android:hint="Teléfono 1" />
-
-    <EditText
-        android:id="@+id/teacherProfilePhone2"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="phone"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfilePhone1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfileCiclos"
-        android:hint="Teléfono 2" />
-
-    <TextView
-        android:id="@+id/teacherProfileCiclos"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:text="Ccursos"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfilePhone2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfilePassword" />
-
-    <EditText
-        android:id="@+id/teacherProfilePassword"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="textPassword"
-        android:maxLength="8"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfileCiclos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfileFoto"
-        android:hint="Ingrese su contraseña" />
-
-    <Button
-        android:id="@+id/teacherProfileFoto"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/sacar_foto"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfilePassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/teacherProfileSubmit" />
 
     <Button
         android:id="@+id/teacherProfileSubmit"
@@ -128,7 +104,7 @@
         android:enabled="false"
         android:text="@string/enviar"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfileFoto"
+        app:layout_constraintTop_toBottomOf="@id/teacherProfileDni"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

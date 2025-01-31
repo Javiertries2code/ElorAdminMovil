@@ -5,8 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.elorrieta.alumnoclient.session.SessionManager
 import com.elorrieta.alumnoclient.socketIO.StudentSocket
 import com.elorrieta.alumnoclient.socketIO.TeacherSocket
+import com.google.android.material.appbar.MaterialToolbar
 
 private lateinit var thisSocket: TeacherSocket
 
@@ -42,6 +48,40 @@ class TeacherProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_teacher_profile, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.teacherToolbar)
+        val teacherIcon = view.findViewById<ImageView>(R.id.teacherIcon)
+        val teacherName = view.findViewById<TextView>(R.id.teacherName)
+
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayShowHomeEnabled(true)
+            setLogo(R.drawable.elorrietalogo)
+            setDisplayUseLogoEnabled(true)
+            title = "Panel de Profesor"
+        }
+
+        teacherName.text = SessionManager.getEmail()
+        teacherIcon.setImageResource(R.drawable.avatar)
+
+        val buttonMeetings = view.findViewById<Button>(R.id.teacherMeetings)
+        val buttonSchedules = view.findViewById<Button>(R.id.teacherSchedules)
+        val buttonMeetingRequest = view.findViewById<Button>(R.id.teacherMeetingRequest)
+
+        buttonMeetings.setOnClickListener {
+
+        }
+
+        buttonSchedules.setOnClickListener {
+        }
+
+        buttonMeetingRequest.setOnClickListener {
+        }
     }
 
     companion object {

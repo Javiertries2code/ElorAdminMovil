@@ -11,21 +11,21 @@
     android:paddingRight="@dimen/fragment_horizontal_margin"
     android:paddingTop="@dimen/fragment_vertical_margin"
     android:background="@color/azulmarino"
-
     tools:context=".LoginFragment">
 
-        <TextView
-            android:id="@+id/registertitulo"
-            android:layout_width="300dp"
-            android:layout_height="48dp"
-            android:background="@color/rojo"
-            android:inputType="text"
+        <!-- Register Toolbar -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/registerToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbarColor"
 
-            android:text="Panel Registro"
-            app:layout_constraintBottom_toTopOf="@id/registerName"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:title="Panel Registro"
+            app:titleTextColor="@android:color/white"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <EditText
             android:id="@+id/registerName"
@@ -33,12 +33,11 @@
             android:layout_height="48dp"
             android:background="@color/white"
             android:hint="introduzca su nombre"
-
             android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/registerSurname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/registertitulo" />
+            app:layout_constraintTop_toBottomOf="@id/registerToolbar" />
 
         <EditText
             android:id="@+id/registerSurname"
@@ -46,7 +45,6 @@
             android:layout_height="48dp"
             android:background="@color/white"
             android:hint="Introduzca sus apellidos"
-
             android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/registerEmail"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +57,6 @@
             android:layout_height="48dp"
             android:background="@color/white"
             android:hint="Introduzca su mail"
-
             android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/registerDni"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +69,6 @@
             android:layout_height="48dp"
             android:background="@color/white"
             android:hint="Introduzca su DNI"
-
             android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/registerPhone1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +81,6 @@
             android:layout_height="48dp"
             android:background="@color/white"
             android:hint="Teléfono 1"
-
             android:inputType="phone"
             app:layout_constraintBottom_toTopOf="@id/registerPhone2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +93,6 @@
             android:layout_height="48dp"
             android:background="@color/white"
             android:hint="Teléfono 2"
-
             android:inputType="phone"
             app:layout_constraintBottom_toTopOf="@id/registerCiclos"
             app:layout_constraintEnd_toEndOf="parent"
@@ -109,9 +103,8 @@
             android:id="@+id/registerCiclos"
             android:layout_width="300dp"
             android:layout_height="40dp"
-            android:text="Ccursos"
+            android:text="Cursos"
             android:background="@color/white"
-
             app:layout_constraintTop_toBottomOf="@id/registerPhone2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -122,9 +115,8 @@
             android:layout_width="300dp"
             android:layout_height="48dp"
             android:background="@color/white"
-            android:hint="Ingrese su  nuevacontraseña"
+            android:hint="Ingrese su nueva contraseña"
             android:inputType="textPassword"
-
             android:maxLength="8"
             app:layout_constraintBottom_toTopOf="@id/registerFoto"
             app:layout_constraintEnd_toEndOf="parent"
@@ -139,12 +131,8 @@
             android:textColor="@color/rojo"
             android:clickable="true"
             android:textSize="22sp"
-
-
-
             android:text="@string/sacar_foto"
             android:background="@color/white"
-
             app:layout_constraintTop_toBottomOf="@id/registerNewPassword"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -158,18 +146,11 @@
             android:textColor="@color/rojo"
             android:clickable="true"
             android:textSize="22sp"
-
-
-
             android:text="@string/enviar"
             android:background="@color/white"
-
             app:layout_constraintTop_toBottomOf="@id/registerFoto"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,17 +9,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Lifecycle
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.google.android.material.appbar.MaterialToolbar
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LoginFragment : Fragment() {
     private var name: String? = null
     private var password: String? = null
@@ -57,6 +55,36 @@ class LoginFragment : Fragment() {
         val loginButton = view.findViewById<Button>(R.id.btnloginRegister)
         val loginResetPasswrod = view.findViewById<Button>(R.id.btnloginResetPasswrod)
 
+        /*
+                finding the toolbar here, seeting it up as actionbar, for some reasons
+                hacemos el setting
+
+
+                 */
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbarLogin)
+
+
+        (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
+
+        // Configura el logo y el título
+
+//delay to refresh title,  it doesnt appear
+        lifecycleScope.launch {
+
+            (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+                setDisplayShowHomeEnabled(true) // Asegura que el logo se muestre
+                setLogo(R.drawable.elorrietalogo) // Reemplaza con el recurso de tu logo
+                setDisplayUseLogoEnabled(true) // Habilita el uso del logo
+                setDisplayShowTitleEnabled(true) // 🔹 Muestra el título junto con el logo
+                title = "Login"
+            }
+            lifecycleScope.launch {
+                delay(300)
+                (requireActivity() as AppCompatActivity).supportActionBar?.title = "Login"
+
+            }
+
+        }
 
         // Populate EditText fields with data
         usernameTextView?.setText(name.orEmpty())
@@ -78,7 +106,10 @@ class LoginFragment : Fragment() {
             val usernameSent = usernameTextView.text.toString()
             val passwordSent = passwordTextView.text.toString()
 
-            Log.d(loginFragment, "Botón loginRegister presionado con usuario: $usernameSent y contraseña: $passwordSent")
+            Log.d(
+                loginFragment,
+                "Botón loginRegister presionado con usuario: $usernameSent y contraseña: $passwordSent"
+            )
 
 
 
@@ -96,7 +127,7 @@ class LoginFragment : Fragment() {
             Log.d(loginFragment, "it clicked call resetPassword, deliverin $usernameSent")
 //look the notes on exrtension functions, this is just checking the null before,
 // //as there was a mismatch Sting String?
-        loginSocket.resetPassword(usernameSent)
+            loginSocket.resetPassword(usernameSent)
 
             Log.d(loginFragment, "Des it even return from the call, it should change frangment")
 

@@ -6,120 +6,116 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/fragment_vertical_margin"
-    android:paddingLeft="@dimen/fragment_horizontal_margin"
-    android:paddingRight="@dimen/fragment_horizontal_margin"
-    android:paddingTop="@dimen/fragment_vertical_margin"
-    android:background="@color/verde"
+    android:padding="16dp"
+    android:background="@color/azulmarino"
     tools:context=".LoginFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/studentToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/toolbarColor"
+        app:titleTextColor="@android:color/white"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/studentIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/avatar"
+            android:contentDescription="@string/userIcon"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="16dp" />
+
+        <TextView
+            android:id="@+id/studentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estudiante"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="64dp" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/studentToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/studentHorarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Horarios" />
+
+        <Button
+            android:id="@+id/studentCourses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cursos"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/studentDocs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Documentos"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/studentProfileName"
         android:layout_width="300dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:inputType="text"
         android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/studentHorarios"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfileSurname"
-        android:hint="introduzca su nombre" />
+        android:hint="Introduzca su nombre"
+        tools:ignore="NotSibling" />
 
     <EditText
         android:id="@+id/studentProfileSurname"
         android:layout_width="300dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:inputType="text"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/studentProfileName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfileEmail"
         android:hint="Introduzca sus apellidos" />
 
     <EditText
         android:id="@+id/studentProfileEmail"
         android:layout_width="300dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:inputType="text"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/studentProfileSurname"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfileDni"
         android:hint="Introduzca su mail" />
 
     <EditText
         android:id="@+id/studentProfileDni"
         android:layout_width="300dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:inputType="text"
         android:background="@color/white"
         app:layout_constraintTop_toBottomOf="@id/studentProfileEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfilePhone1"
         android:hint="Introduzca su DNI" />
-
-    <EditText
-        android:id="@+id/studentProfilePhone1"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="phone"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfileDni"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfilePhone2"
-        android:hint="Teléfono 1" />
-
-    <EditText
-        android:id="@+id/studentProfilePhone2"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="phone"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfilePhone1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfileCiclos"
-        android:hint="Teléfono 2" />
-
-    <TextView
-        android:id="@+id/studentProfileCiclos"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:text="Ccursos"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfilePhone2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfilePassword" />
-
-    <EditText
-        android:id="@+id/studentProfilePassword"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="textPassword"
-        android:maxLength="8"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfileCiclos"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfileFoto"
-        android:hint="Ingrese su contraseña" />
-
-    <Button
-        android:id="@+id/studentProfileFoto"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/sacar_foto"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfilePassword"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/studentProfileSubmit" />
 
     <Button
         android:id="@+id/studentProfileSubmit"
@@ -128,7 +124,7 @@
         android:enabled="false"
         android:text="@string/enviar"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfileFoto"
+        app:layout_constraintTop_toBottomOf="@id/studentProfileDni"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
