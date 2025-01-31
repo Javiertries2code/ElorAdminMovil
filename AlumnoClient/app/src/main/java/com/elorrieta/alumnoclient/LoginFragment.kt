@@ -29,8 +29,8 @@ class LoginFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            name = it.getString(NAME_BUNDLE)
-            password = it.getString(PASSWORD_BUNDLE)
+            name = it.getString(/* key = */ "email")
+            password = it.getString(/* key = */ "password")
             loginSocket = (requireActivity() as MainActivity).getLoginSocket()
 
             Log.d(loginFragment, "Name: ${name.orEmpty()}")
@@ -109,17 +109,17 @@ class LoginFragment : Fragment() {
 
     }
 
-    companion object {
-        const val NAME_BUNDLE = "name"
-        const val PASSWORD_BUNDLE = "password"
-
-        @JvmStatic
-        fun newInstance(name: String, password: String) =
-            LoginFragment().apply {
-                arguments = Bundle().apply {
-                    putString(NAME_BUNDLE, name)
-                    putString(PASSWORD_BUNDLE, password)
-                }
-            }
-    }
+//    companion object {
+//        const val NAME_BUNDLE = "name"
+//        const val PASSWORD_BUNDLE = "password"
+//
+//        @JvmStatic
+//        fun newInstance(name: String, password: String) =
+//            LoginFragment().apply {
+//                arguments = Bundle().apply {
+//                    putString(NAME_BUNDLE, name)
+//                    putString(PASSWORD_BUNDLE, password)
+//                }
+//            }
+//    }
 }

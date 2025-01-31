@@ -4,17 +4,17 @@ import java.io.Serializable
 
 data class Student(
     var idStudent: Int? = null,
-    val registered: Boolean? = null,
+    var registered: Boolean? = null,
     var email: String? = null,
     var passwordHashed: String? = null,
     var passwordNotHashed: Int? = null,
     val dni: String? = null,
     var name: String? = null,
     var lastName: String? = null,
-    val address: String? = null,
-    val phone1: String? = null,
-    val phone2: String? = null,
-    val foto: ByteArray? = null,
+    var address: String? = null,
+    var phone1: String? = null,
+    var phone2: String? = null,
+    var foto: ByteArray? = null,
     var user_type: String? = null,
-    val registrations: Set<Any> = emptySet()
+    var registrations: Set<Any> = emptySet()
 ): Serializable

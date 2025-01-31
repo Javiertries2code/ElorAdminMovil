@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken
 import io.socket.client.Socket
 import org.json.JSONObject
 
+
 class RegisterSocket(private val context: Context)
 {
 
@@ -36,6 +37,9 @@ class RegisterSocket(private val context: Context)
         Log.d(tag, "Requesting all meetings...")
     }
 
+    fun registerUser() {
+
+    }
 
 
 }

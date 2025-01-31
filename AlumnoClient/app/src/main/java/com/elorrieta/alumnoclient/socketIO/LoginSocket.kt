@@ -58,7 +58,6 @@ class LoginSocket(private val context: Context) {
 
             var user: Serializable? = null
 
-            // Elegir el tipo de usuario
             when (userType) {
                 "student" -> {
                     val student = Student().apply {
@@ -124,40 +123,7 @@ class LoginSocket(private val context: Context) {
                     .commit()
             }
         }
-        //LoginAnswer
-       /*
-        socket.on(Events.ON_LOGIN_ANSWER.value) { args ->
-            val response = args[0] as JSONObject
-            val message = response.getString("message") as String
 
-            val gson = Gson()
-            val jsonObject = gson.fromJson(message, JsonObject::class.java)
-            val idStudent = jsonObject["id"].asInt
-            val name = jsonObject["name"].asString
-            val email = jsonObject["email"].asString
-            val lastName = jsonObject["lastName"].asString
-            val passwordNotHashed = jsonObject["passwordNotHashed"].asInt
-            val passwordHashed = jsonObject["passwordHashed"].asString
-
-            val alumno = Student().apply {
-                this.idStudent = idStudent
-                this.name = name
-                this.email = email
-                this.lastName = lastName
-                this.passwordNotHashed = passwordNotHashed
-                this.passwordHashed = passwordHashed
-            }
-
-            SessionManager.setUser(alumno)
-
-//            activity.runOnUiThread {
-//                Toast.makeText(activity, "Login correcto \n Bienvenido ${alumno.name}", Toast.LENGTH_SHORT).show()
-//            }
-
-            //  activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login:$alumno")
-            Log.d(tag, "Answer to Login: $alumno")
-        }
-*/
         socket.on(Events.ON_LOGIN_SUCCESS_ANSWER.value) { args ->
             val response = args[0] as JSONObject
             Log.d(notRegisteredAnswer, "Coming into socket.on(Events.ON_NOT_REGISTERED.value)")

@@ -12,8 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.elorrieta.alumnoclient.LoginFragment.Companion.NAME_BUNDLE
-import com.elorrieta.alumnoclient.LoginFragment.Companion.PASSWORD_BUNDLE
+import com.elorrieta.alumnoclient.LoginFragment
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
 import com.elorrieta.alumnoclient.socketIO.MeetingSocket
 import com.elorrieta.alumnoclient.socketIO.SocketClient
@@ -65,17 +64,19 @@ class MainActivity : AppCompatActivity() {
         later one every fragment gets its own socket (which in real is the same, butit facilitates the separation of code, on the flipside of having a bunch
         of sockets runing in memory... but noone spoke about efiiciency so far)
          */
-        socketClient = SocketClient(this).apply {
-            connect()
-        }
+
+       // i was connecting automatically, now i leave it for the connecting button
+        socketClient = SocketClient(this)
+     //   socketClient = SocketClient(this).apply {
+//            connect()
+//        }
 
         if (savedInstanceState == null) {
-            val bundle =
-                bundleOf(NAME_BUNDLE to "teacher1@email.com", PASSWORD_BUNDLE to "123")
+
 
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
-                replace<LoginFragment>(R.id.fragmentContainer, args = bundle)
+                replace<LandingFragment>(R.id.fragmentContainer)
 
             }
         }
@@ -143,6 +144,11 @@ class MainActivity : AppCompatActivity() {
     fun getRegisterSocket(): RegisterSocket {
         return registerSocket
 
+    }
+
+    fun connect(){
+        socketClient.connect()
+        Log.d(mainActivity, "connect function called in main")
     }
 
     // Anctivity lifecycle, better close the socket...
