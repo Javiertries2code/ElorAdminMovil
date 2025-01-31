@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/fragment_horizontal_margin"
     android:paddingRight="@dimen/fragment_horizontal_margin"
     android:paddingTop="@dimen/fragment_vertical_margin"
-    android:background="@color/rojo"
+    android:background="@color/azulmarino"
     tools:context=".LoginFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -75,38 +75,6 @@
             android:layout_marginStart="8dp" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/teacherProfileName"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="text"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherMeetings"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="introduzca su nombre" />
 
-    <EditText
-        android:id="@+id/teacherProfileDni"
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:inputType="text"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfileName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Introduzca su DNI" />
-
-    <Button
-        android:id="@+id/teacherProfileSubmit"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/enviar"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/teacherProfileDni"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

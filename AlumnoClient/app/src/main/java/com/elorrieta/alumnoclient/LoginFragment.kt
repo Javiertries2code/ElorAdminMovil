@@ -26,16 +26,10 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            name = it.getString(/* key = */ "email")
-            password = it.getString(/* key = */ "password")
-            loginSocket = (requireActivity() as MainActivity).getLoginSocket()
 
-            Log.d(loginFragment, "Name: ${name.orEmpty()}")
-            Log.d(loginFragment, "Password: ${password.orEmpty()}")
+        loginSocket = (requireActivity() as MainActivity).getLoginSocket()
 
 
-        }
     }
 
     override fun onCreateView(
@@ -68,27 +62,19 @@ class LoginFragment : Fragment() {
 
         // Configura el logo y el título
 
-//delay to refresh title,  it doesnt appear
-        lifecycleScope.launch {
 
-            (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-                setDisplayShowHomeEnabled(true) // Asegura que el logo se muestre
-                setLogo(R.drawable.elorrietalogo) // Reemplaza con el recurso de tu logo
-                setDisplayUseLogoEnabled(true) // Habilita el uso del logo
-                setDisplayShowTitleEnabled(true) // 🔹 Muestra el título junto con el logo
-                title = "Login"
-            }
-            lifecycleScope.launch {
-                delay(300)
-                (requireActivity() as AppCompatActivity).supportActionBar?.title = "Login"
-
-            }
-
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            setDisplayShowHomeEnabled(true) // Asegura que el logo se muestre
+            setLogo(R.drawable.elorrietalogo) // Reemplaza con el recurso de tu logo
+            setDisplayUseLogoEnabled(true) // Habilita el uso del logo
+            setDisplayShowTitleEnabled(true) // 🔹 Muestra el título junto con el logo
+            title = "Login"
         }
 
+
         // Populate EditText fields with data
-        usernameTextView?.setText(name.orEmpty())
-        passwordTextView?.setText(password.orEmpty())
+        usernameTextView?.setText("teacher1@email.com")
+        passwordTextView?.setText("123")
 
 
 //As my fragment comes  straight from main, that is a appcompact activity... it should works
@@ -105,6 +91,7 @@ class LoginFragment : Fragment() {
         loginButton.setOnClickListener {
             val usernameSent = usernameTextView.text.toString()
             val passwordSent = passwordTextView.text.toString()
+            Log.d("deliveredLoginSocket", "Recibido en dologin $usernameSent + $passwordSent")
 
             Log.d(
                 loginFragment,
@@ -116,10 +103,7 @@ class LoginFragment : Fragment() {
             Log.d(loginFragment, "Se ejecutó loginSocket.doLogin")
             loginSocket.doLogin(usernameSent, passwordSent)
 
-            lifecycleScope.launch {
-                delay(3000) // Espera 3 segundos sin bloquear la UI
 
-            }
         }
 
         loginResetPasswrod.setOnClickListener {

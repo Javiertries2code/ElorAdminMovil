@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.elorrieta.alumnoclient.LoginFragment
@@ -30,10 +32,11 @@ class LoginSocket(private val context: Context) {
 
     private val socket: Socket = SocketManager.getSocket() // Reutiliza el socket
     private val tag = "loginSocket"
+    private val deliveredLoginSocket = "deliveredLoginSocket"
     private val loginAnswer = "loginAnswer"
 
     private val notRegisteredAnswer = "notRegisteredAnswer"
-    private var type_user_redirect :String  = "";
+    private var type_user_redirect: String = "";
 
 
     init {
@@ -70,6 +73,7 @@ class LoginSocket(private val context: Context) {
                     SessionManager.setUser(student)
                     user = student
                 }
+
                 "teacher" -> {
                     val teacher = Teacher().apply {
                         idTeacher = id
@@ -81,6 +85,7 @@ class LoginSocket(private val context: Context) {
                     SessionManager.setUser(teacher)
                     user = teacher
                 }
+
                 else -> {
                     Log.e(notRegisteredAnswer, "I assume it exists in DB nas is registered")
                     return@on
@@ -91,13 +96,19 @@ class LoginSocket(private val context: Context) {
             Log.d(notRegisteredAnswer, "Event received with message: ${user.toString()}")
 
             if (user == null) {
-                Log.e(notRegisteredAnswer, "El usuario es null, no se puede pasar a RegisterFragment")
+                Log.e(
+                    notRegisteredAnswer,
+                    "El usuario es null, no se puede pasar a RegisterFragment"
+                )
                 return@on
             }
 
             // Asegurar que el contexto es una FragmentActivity antes de proceder
             val activity = context as? FragmentActivity ?: run {
-                Log.e(notRegisteredAnswer, "El contexto no es una FragmentActivity, no se puede cambiar el fragmento")
+                Log.e(
+                    notRegisteredAnswer,
+                    "El contexto no es una FragmentActivity, no se puede cambiar el fragmento"
+                )
                 return@on
             }
 
@@ -159,6 +170,7 @@ class LoginSocket(private val context: Context) {
                     SessionManager.setUser(student)
                     user = student
                 }
+
                 "teacher" -> {
                     val teacher = Teacher().apply {
                         idTeacher = id
@@ -170,6 +182,7 @@ class LoginSocket(private val context: Context) {
                     SessionManager.setUser(teacher)
                     user = teacher
                 }
+
                 else -> {
                     Log.e(loginAnswer, "I assume it exists in DB nas is registered")
                     return@on
@@ -186,7 +199,10 @@ class LoginSocket(private val context: Context) {
 
             // Asegurar que el contexto es una FragmentActivity antes de proceder
             val activity = context as? FragmentActivity ?: run {
-                Log.e(loginAnswer, "El contexto no es una FragmentActivity, no se puede cambiar el fragmento")
+                Log.e(
+                    loginAnswer,
+                    "El contexto no es una FragmentActivity, no se puede cambiar el fragmento"
+                )
                 return@on
             }
 
@@ -203,15 +219,17 @@ class LoginSocket(private val context: Context) {
                 }
 
                 //testing
-                Log.d(loginAnswer, "type of user" + type_user_redirect )
+                Log.d(loginAnswer, "type of user" + type_user_redirect)
 
                 val newFragment: Fragment = when (type_user_redirect) {
                     "student" -> StudentProfileFragment().apply {
                         arguments = bundle
                     }
+
                     "teacher" -> TeacherProfileFragment().apply {
                         arguments = bundle
                     }
+
                     else -> throw IllegalArgumentException("Tipo de usuario desconocido: $type_user_redirect")
                 }
 
@@ -228,6 +246,21 @@ class LoginSocket(private val context: Context) {
     }
 
     fun doLogin(email: String, password: String) {
+        Log.d(deliveredLoginSocket, "Recibido en dologin $email + $password")
+
+        val activity = context as? FragmentActivity?
+        if (email.isNullOrBlank() || password.isNullOrBlank()) {
+            if (activity != null) {
+                activity.runOnUiThread() {
+                    Toast.makeText(
+                        context,
+                        "El email o el password estan vacios",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            return
+        }
         val message = JSONObject().apply {
             put("email", email)
             put("password", password)
@@ -261,7 +294,10 @@ class LoginSocket(private val context: Context) {
         socket.emit(Events.ON_RESET_PASSWORD.value, Gson().toJson(message))
 
         val activity = context as? FragmentActivity ?: run {
-            Log.e(notRegisteredAnswer, "El contexto no es una FragmentActivity, no se puede cambiar el fragmento")
+            Log.e(
+                notRegisteredAnswer,
+                "El contexto no es una FragmentActivity, no se puede cambiar el fragmento"
+            )
             return
         }
 
@@ -273,7 +309,7 @@ class LoginSocket(private val context: Context) {
         Log.d(notRegisteredAnswer, "Intenta cambiar el fragmento")
 
         activity.runOnUiThread {
-            val newFragment: Fragment =   LoginFragment()
+            val newFragment: Fragment = LoginFragment()
 
 
 
