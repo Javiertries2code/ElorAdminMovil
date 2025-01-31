@@ -246,7 +246,7 @@ class LoginSocket(private val context: Context) {
     }
 
     fun doLogin(email: String, password: String) {
-        Log.d(deliveredLoginSocket, "Recibido en dologin $email + $password")
+        Log.d(tag, "Recibido en dologin $email + $password")
 
         val activity = context as? FragmentActivity?
         if (email.isNullOrBlank() || password.isNullOrBlank()) {

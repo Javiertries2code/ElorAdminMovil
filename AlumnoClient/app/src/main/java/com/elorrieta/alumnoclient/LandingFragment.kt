@@ -43,11 +43,8 @@ class LandingFragment : Fragment() {
             val activity = requireActivity() as? MainActivity
             val newFragment: Fragment = LoginFragment()
             activity?.connect()
-
-
             //bundle only for testing while developing
-
-newFragment.apply {  bundleOf("email" to "teacher1@email.com", "password" to "123") }
+            newFragment.apply { bundleOf("email" to "teacher1@email.com", "password" to "123") }
 
             if (activity != null) {
                 activity.supportFragmentManager
