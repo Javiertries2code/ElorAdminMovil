@@ -1,7 +1,7 @@
 #in the Ksp version, you want to make sure is the same version as your kotlin
 [versions]
 
-room = "2.6.1"
+room = "2.6.0"
 ksp = "1.9.0-1.0.12"
 
 

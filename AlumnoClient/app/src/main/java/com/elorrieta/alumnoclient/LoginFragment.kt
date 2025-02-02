@@ -1,5 +1,6 @@
 package com.elorrieta.alumnoclient
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
 import androidx.lifecycle.lifecycleScope
 import com.elorrieta.alumnoclient.room.AppDatabase
+import com.elorrieta.alumnoclient.room.RoomUser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.google.android.material.appbar.MaterialToolbar
@@ -45,6 +48,7 @@ class LoginFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val usernameTextView = view.findViewById<EditText>(R.id.username)
@@ -54,31 +58,37 @@ class LoginFragment : Fragment() {
 
         val db = AppDatabase.getInstance(requireContext()) // ✅ Obtener la instancia correctamente
 
-        // Recuperar el último usuario logueado en un hilo de corrutina
-        lifecycleScope.launch(Dispatchers.IO) {
-            val lastUser = db.roomDao().getLastLoggedUser()
+        var lastUser: RoomUser? = null
 
+
+        lifecycleScope.launch(Dispatchers.IO) {
+             lastUser = db.roomDao().getLastLoggedUser()
                      }
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbarLogin)
 
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        // Configura el logo y el título
 
 
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            setDisplayShowHomeEnabled(true) // Asegura que el logo se muestre
-            setLogo(R.drawable.elorrietalogo) // Reemplaza con el recurso de tu logo
-            setDisplayUseLogoEnabled(true) // Habilita el uso del logo
-            setDisplayShowTitleEnabled(true) // 🔹 Muestra el título junto con el logo
+            setDisplayShowHomeEnabled(true)
+            setLogo(R.drawable.elorrietalogo)
+            setDisplayUseLogoEnabled(true)
+            setDisplayShowTitleEnabled(true)
             title = "Login"
         }
 
 
-        // Populate EditText fields with data
-        usernameTextView?.setText("teacher1@email.com")
-        passwordTextView?.setText("123")
+       if (lastUser?.remember  == true){
+            usernameTextView?.setText(lastUser?.email)
+            passwordTextView?.setText(lastUser?.password)
+        }
+        else{
+           usernameTextView?.setText("Usuario")
+           passwordTextView?.setText("Password")
+       }
+
 
 
 //As my fragment comes  straight from main, that is a appcompact activity... it should works
@@ -127,18 +137,9 @@ class LoginFragment : Fragment() {
 
 
     }
+    fun hasRemember(): Boolean {
+        val checkBox = view?.findViewById<CheckBox>(R.id.CheckBoxLogin)
+        return checkBox?.isChecked ?: false
+    }
 
-//    companion object {
-//        const val NAME_BUNDLE = "name"
-//        const val PASSWORD_BUNDLE = "password"
-//
-//        @JvmStatic
-//        fun newInstance(name: String, password: String) =
-//            LoginFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(NAME_BUNDLE, name)
-//                    putString(PASSWORD_BUNDLE, password)
-//                }
-//            }
-//    }
 }

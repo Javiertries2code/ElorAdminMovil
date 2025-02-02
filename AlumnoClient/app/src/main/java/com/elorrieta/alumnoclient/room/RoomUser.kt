@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey
 
 @Entity (tableName = "users")
 data class RoomUser(
-    @PrimaryKey(autoGenerate = true) val id :Long ,
-    val email: String,
+    @PrimaryKey(autoGenerate = true) val id :Long,
+    var email: String,
 
-    val password: String,
+    var password: String,
 
-    val lastLogin: Long,
+    var lastLogin: Long,
 
-    val remember: Boolean
+    var remember: Boolean
 ) {
 }

@@ -1,6 +1,8 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
+import kotlinx.coroutines.withContext
+
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.elorrieta.alumnoclient.LoginFragment
 import com.elorrieta.alumnoclient.MainActivity
 import com.elorrieta.alumnoclient.R
@@ -17,12 +22,15 @@ import com.elorrieta.alumnoclient.StudentProfileFragment
 import com.elorrieta.alumnoclient.TeacherProfileFragment
 import com.elorrieta.alumnoclient.entity.Student
 import com.elorrieta.alumnoclient.entity.Teacher
+import com.elorrieta.alumnoclient.room.RoomUser
 import com.elorrieta.alumnoclient.session.SessionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.socketsio.sockets.config.Events
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.socket.client.Socket
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.io.Serializable
 
@@ -164,9 +172,21 @@ class LoginSocket(private val context: Context) {
             val userType = jsonObject["user_type"].asString
             val name = jsonObject["name"].asString
 
-            val myToast = context as? FragmentActivity?
-            if (myToast != null) {
-                myToast.runOnUiThread() {
+//To access the function and saving room user
+            val myActivity = context as? MainActivity
+
+            if (myActivity != null) {
+                myActivity.saveRoomUser(email, passwordHashed, passwordNotHashed)
+            }
+
+
+//some day i will finally do the toastr function... lets keep waiting :-P
+
+
+            val acitvity = context as? FragmentActivity?
+
+            if (acitvity != null) {
+                acitvity.runOnUiThread() {
                     Toast.makeText(
                         context,
                         "Usuario logueado",
@@ -174,6 +194,8 @@ class LoginSocket(private val context: Context) {
                     ).show()
                 }
             }
+
+
 
             type_user_redirect = userType;
 

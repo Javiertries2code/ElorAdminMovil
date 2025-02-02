@@ -22,6 +22,7 @@ import com.elorrieta.alumnoclient.socketIO.RegisterSocket
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.net.NetworkCapabilities
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.elorrieta.alumnoclient.room.AppDatabase
 import com.elorrieta.alumnoclient.room.RoomUser
 import kotlinx.coroutines.Dispatchers
@@ -137,6 +138,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun saveRoomUser(email : String, passwordHashed: String, passwordNotHashed: Int){
+
+        val db = AppDatabase.getInstance(this)
+        val myRemember = LoginFragment().hasRemember()
+        lateinit var lastUser: RoomUser
+
+        lastUser.email = email
+        lastUser.password = passwordNotHashed.toString()
+        lastUser.remember = myRemember
+        lastUser.lastLogin = System.currentTimeMillis()
+
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            db.roomDao().insert(lastUser)
+        }
+
+    }
     fun getLoginSocket(): LoginSocket {
         return loginSocket
     }
