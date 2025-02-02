@@ -58,14 +58,10 @@ class LoginFragment : Fragment() {
 
         val db = AppDatabase.getInstance(requireContext()) // ✅ Obtener la instancia correctamente
 
-        var lastUser: RoomUser? = null
+//////////////////////////////////////
 
 
-        lifecycleScope.launch(Dispatchers.IO) {
-             lastUser = db.roomDao().getLastLoggedUser()
-                     }
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbarLogin)
-
 
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
@@ -79,18 +75,6 @@ class LoginFragment : Fragment() {
             title = "Login"
         }
 
-
-       if (lastUser?.remember  == true){
-            usernameTextView?.setText(lastUser?.email)
-            passwordTextView?.setText(lastUser?.password)
-        }
-        else{
-           usernameTextView?.setText("Usuario")
-           passwordTextView?.setText("Password")
-       }
-
-
-
 //As my fragment comes  straight from main, that is a appcompact activity... it should works
         //val loginSocket = (requireActivity() as MainActivity).getLoginSocket() // Acceder a la instancia
 
@@ -102,17 +86,31 @@ class LoginFragment : Fragment() {
 
         }
 
+
+        var lastUser: RoomUser? = null
+        lifecycleScope.launch(Dispatchers.IO) {
+            val user = db.roomDao().getLastLoggedUser()
+            withContext(Dispatchers.Main) {
+                if (user?.remember == true) {
+                    usernameTextView.setText(user.email)
+                    passwordTextView.setText(user.password)
+                } else {
+                    usernameTextView.setText("Usuario")
+                    passwordTextView.setText("Password")
+                }
+            }
+        }
         loginButton.setOnClickListener {
             val usernameSent = usernameTextView.text.toString()
             val passwordSent = passwordTextView.text.toString()
-            Log.d("deliveredLoginSocket", "Recibido en dologin $usernameSent + $passwordSent")
-
-            Log.d(
-                loginFragment,
-                "Botón loginRegister presionado con usuario: $usernameSent y contraseña: $passwordSent"
-            )
-
-
+            val checkBox = view.findViewById<CheckBox>(R.id.CheckBoxLogin)
+            val activity = context as? MainActivity
+            if (activity != null) {
+                if( checkBox.isChecked)
+                    activity.remeberFlag = 1
+                else
+                    activity.remeberFlag = 0
+            }
 
             Log.d(loginFragment, "Se ejecutó loginSocket.doLogin")
             loginSocket.doLogin(usernameSent, passwordSent)
@@ -137,9 +135,27 @@ class LoginFragment : Fragment() {
 
 
     }
-    fun hasRemember(): Boolean {
-        val checkBox = view?.findViewById<CheckBox>(R.id.CheckBoxLogin)
-        return checkBox?.isChecked ?: false
+/*
+IMPORTANT---> CASE I GOTTA SEND PARAMS, I GOTTA USE THE NEW INSTANCE +PRAMS
+IMPORTANT---> IMPORTANT---> IMPORTANT---> IMPORTANT---> IMPORTANT--->
+
+navigate(AppFragments.LOGIN.newInstance("user@example.com", "password123"))
+
+
+ */
+
+
+    companion object {
+        fun newInstance(username: String? = null, password: String? = null): LoginFragment {
+            val fragment = LoginFragment()
+            val args = Bundle()
+            args.putString("username", username)
+            args.putString("password", password)
+            fragment.arguments = args
+            return fragment
+        }
     }
+
+
 
 }

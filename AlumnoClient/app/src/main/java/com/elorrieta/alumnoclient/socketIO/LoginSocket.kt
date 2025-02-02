@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
+import com.elorrieta.alumnoclient.AppFragments
 import com.elorrieta.alumnoclient.LoginFragment
 import com.elorrieta.alumnoclient.MainActivity
 import com.elorrieta.alumnoclient.R
@@ -48,38 +49,30 @@ class LoginSocket(private val context: Context) {
 
 
     init {
+        socket.on(Events.ON_LOGIN_USER_NOT_FOUND_ANSWER.value){
+            val activity = context as? MainActivity
+            activity?.toaster("Usuario no encontrado en la DB del centro")
+
+        }
+
 
         socket.on(Events.ON_NOT_REGISTERED.value) { args ->
             val response = args[0] as JSONObject
+            val activity = context as? MainActivity
+            activity?.toaster("Debe registrarse antes de continuar")
 
-            val myToast = context as? FragmentActivity?
-            if (myToast != null) {
-                myToast.runOnUiThread() {
-                    Toast.makeText(
-                        context,
-                        "Debe registrarse",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-            Log.d(notRegisteredAnswer, "Coming into socket.on(Events.ON_NOT_REGISTERED.value)")
-            Log.d(notRegisteredAnswer, "Tipo de contexto recibido: ${context::class.java.name}")
-            Log.d(notRegisteredAnswer, "Tipo de contexto recibido: ${context::class.java.name}")
-            Log.d(notRegisteredAnswer, "¿Es una AppCompatActivity? ${context is AppCompatActivity}")
-            Log.d(notRegisteredAnswer, "¿Es una FragmentActivity? ${context is FragmentActivity}")
             val message = response.getString("message")
             val gson = Gson()
             val jsonObject = gson.fromJson(message, JsonObject::class.java)
 
-            val id = jsonObject["id"].asInt
-            val email = jsonObject["email"].asString
-            val passwordNotHashed = jsonObject["passwordNotHashed"].asInt
-            val passwordHashed = jsonObject["passwordHashed"].asString
-            val userType = jsonObject["user_type"].asString
-            val name = jsonObject["name"].asString
+            val id = jsonObject.get("id")?.asInt ?: -1
+            val email = jsonObject.get("email")?.asString ?: "Sin Datos"
+            val passwordNotHashed = jsonObject.get("passwordNotHashed")?.asInt ?: 0
+            val passwordHashed = jsonObject.get("passwordHashed")?.asString ?: "Sin Datos"
+            val userType = jsonObject.get("user_type")?.asString ?: "Sin Datos"
+            val name = jsonObject.get("name")?.asString ?: "Sin Datos"
 
             var user: Serializable? = null
-
             when (userType) {
                 "student" -> {
                     val student = Student().apply {
@@ -92,7 +85,6 @@ class LoginSocket(private val context: Context) {
                     SessionManager.setUser(student)
                     user = student
                 }
-
                 "teacher" -> {
                     val teacher = Teacher().apply {
                         idTeacher = id
@@ -105,62 +97,21 @@ class LoginSocket(private val context: Context) {
                     user = teacher
                 }
 
-                else -> {
-                    Log.e(notRegisteredAnswer, "I assume it exists in DB nas is registered")
-                    return@on
-                }
             }
-
-            Log.d(notRegisteredAnswer, "Object user loaded = : $user")
             Log.d(notRegisteredAnswer, "Event received with message: ${user.toString()}")
 
-            if (user == null) {
-                Log.e(
-                    notRegisteredAnswer,
-                    "El usuario es null, no se puede pasar a RegisterFragment"
-                )
-                return@on
-            }
-
-            // Asegurar que el contexto es una FragmentActivity antes de proceder
-            val activity = context as? FragmentActivity ?: run {
-                Log.e(
-                    notRegisteredAnswer,
-                    "El contexto no es una FragmentActivity, no se puede cambiar el fragmento"
-                )
-                return@on
-            }
-
-            if (activity.supportFragmentManager.isStateSaved) {
-                Log.e(notRegisteredAnswer, "El estado del fragmento no es válido para reemplazarlo")
-                return@on
-            }
-
-            Log.d(notRegisteredAnswer, "Intenta cambiar el fragmento")
-
-            activity.runOnUiThread {
+            Log.d(notRegisteredAnswer, "Intenta cambiar al fragmento register")
                 val bundle = Bundle().apply {
-                    putSerializable("user", user)
-                }
-                val registerFragment = RegisterFragment().apply {
-                    arguments = bundle
-                }
-
-                activity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainer, registerFragment)
-                    .addToBackStack(null)
-                    .commit()
+                    putSerializable("user", user)}
+                activity?.navigate(AppFragments.REGISTER, bundle)
             }
-        }
+/////////////////////////////////////////////////////////////NEXT
+        /////////////////////////////////////////////////////////////NEXT
+        /////////////////////////////////////////////////////////////NEXT
 
         socket.on(Events.ON_LOGIN_SUCCESS_ANSWER.value) { args ->
             val response = args[0] as JSONObject
-            Log.d(notRegisteredAnswer, "Coming into socket.on(Events.ON_NOT_REGISTERED.value)")
-            Log.e(notRegisteredAnswer, "Tipo de contexto recibido: ${context::class.java.name}")
-            Log.e(notRegisteredAnswer, "Tipo de contexto recibido: ${context::class.java.name}")
-            Log.e(notRegisteredAnswer, "¿Es una AppCompatActivity? ${context is AppCompatActivity}")
-            Log.e(notRegisteredAnswer, "¿Es una FragmentActivity? ${context is FragmentActivity}")
+
             val message = response.getString("message")
             val gson = Gson()
             val jsonObject = gson.fromJson(message, JsonObject::class.java)
@@ -172,35 +123,23 @@ class LoginSocket(private val context: Context) {
             val userType = jsonObject["user_type"].asString
             val name = jsonObject["name"].asString
 
-//To access the function and saving room user
             val myActivity = context as? MainActivity
+            val roomtag = "roomSocket"
+            Log.d(roomtag, email)
 
             if (myActivity != null) {
+                myActivity.toaster("Usuario se ha logueado")
                 myActivity.saveRoomUser(email, passwordHashed, passwordNotHashed)
+                Log.d(loginAnswer, email)
+                Log.d(loginAnswer, "ON_LOGIN_SUCCESS_ANSWER")
+
+
             }
-
-
-//some day i will finally do the toastr function... lets keep waiting :-P
-
-
-            val acitvity = context as? FragmentActivity?
-
-            if (acitvity != null) {
-                acitvity.runOnUiThread() {
-                    Toast.makeText(
-                        context,
-                        "Usuario logueado",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-
-
             type_user_redirect = userType;
 
             var user: Serializable? = null
 
+            Log.d(loginAnswer, "Intenta cambiar el fragmento")
             // Elegir el tipo de usuario
             when (userType) {
                 "student" -> {
@@ -213,8 +152,11 @@ class LoginSocket(private val context: Context) {
                     }
                     SessionManager.setUser(student)
                     user = student
+                    val bundle = Bundle().apply {
+                        putSerializable("user", user)
+                    }
+                    myActivity?.navigate(AppFragments.STUDENT_PROFILE, bundle)
                 }
-
                 "teacher" -> {
                     val teacher = Teacher().apply {
                         idTeacher = id
@@ -225,84 +167,22 @@ class LoginSocket(private val context: Context) {
                     }
                     SessionManager.setUser(teacher)
                     user = teacher
-                }
-
-                else -> {
-                    Log.e(loginAnswer, "I assume it exists in DB nas is registered")
-                    return@on
-                }
-            }
-
-            Log.d(notRegisteredAnswer, "Object user loaded = : $user")
-            Log.d(notRegisteredAnswer, "Event received with message: ${user.toString()}")
-
-            if (user == null) {
-                Log.e(loginAnswer, "El usuario es null, no se puede pasar a RegisterFragment")
-                return@on
-            }
-
-            // Asegurar que el contexto es una FragmentActivity antes de proceder
-            val activity = context as? FragmentActivity ?: run {
-                Log.e(
-                    loginAnswer,
-                    "El contexto no es una FragmentActivity, no se puede cambiar el fragmento"
-                )
-                return@on
-            }
-
-            if (activity.supportFragmentManager.isStateSaved) {
-                Log.e(loginAnswer, "El estado del fragmento no es válido para reemplazarlo")
-                return@on
-            }
-
-            Log.d(loginAnswer, "Intenta cambiar el fragmento")
-
-            activity.runOnUiThread {
-                val bundle = Bundle().apply {
-                    putSerializable("user", user)
-                }
-
-                //testing
-                Log.d(loginAnswer, "type of user" + type_user_redirect)
-
-                val newFragment: Fragment = when (type_user_redirect) {
-                    "student" -> StudentProfileFragment().apply {
-                        arguments = bundle
+                    val bundle = Bundle().apply {
+                        putSerializable("user", user)
                     }
-
-                    "teacher" -> TeacherProfileFragment().apply {
-                        arguments = bundle
-                    }
-
-                    else -> throw IllegalArgumentException("Tipo de usuario desconocido: $type_user_redirect")
+                    myActivity?.navigate(AppFragments.TEACHER_PROFILE, bundle)
                 }
-
-
-                activity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainer, newFragment)
-                    .addToBackStack(null)
-                    .commit()
             }
         }
-
-        ///End init
     }
+
 
     fun doLogin(email: String, password: String) {
         Log.d(tag, "Recibido en dologin $email + $password")
 
         if (email.isNullOrBlank() || password.isNullOrBlank()) {
-            val activity = context as? FragmentActivity?
-            if (activity != null) {
-                activity.runOnUiThread() {
-                    Toast.makeText(
-                        context,
-                        "El email o el password estan vacios",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            val activity = context as? MainActivity
+            activity?.toaster("El email o el password estan vacios")
             return
         }
         val message = JSONObject().apply {
@@ -311,9 +191,6 @@ class LoginSocket(private val context: Context) {
         }
 
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
-
-
-        // activity.findViewById<TextView>(R.id.textView).append("\nAttempt of login with credentials- $message")
         Log.d(tag, "Attempt of login with credentials - $message")
     }
 
@@ -337,32 +214,12 @@ class LoginSocket(private val context: Context) {
 
         socket.emit(Events.ON_RESET_PASSWORD.value, Gson().toJson(message))
 
-        val activity = context as? FragmentActivity ?: run {
-            Log.e(
-                notRegisteredAnswer,
-                "El contexto no es una FragmentActivity, no se puede cambiar el fragmento"
-            )
-            return
-        }
-
-        if (activity.supportFragmentManager.isStateSaved) {
-            Log.e(notRegisteredAnswer, "El estado del fragmento no es válido para reemplazarlo")
-            return
-        }
-
-        Log.d(notRegisteredAnswer, "Intenta cambiar el fragmento")
-
-        activity.runOnUiThread {
-            val newFragment: Fragment = LoginFragment()
+        val activity = context as? MainActivity?
+        activity?.toaster("Se ha enviado la solicitud de recuperacion de contrasena")
 
 
+        activity?.navigate(AppFragments.LOGIN)
 
-            activity.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, newFragment)
-                .addToBackStack(null)
-                .commit()
-        }
         //  activity.findViewById<TextView>(R.id.textView).append("\nAttempt of reset password with email- $message")
         Log.d(tag, "Attempt of reset password with email - $message")
     }

@@ -57,7 +57,7 @@ class LandingFragment : Fragment() {
                             Toast.makeText(requireContext(), "NO HAY CONECTIVIDAD", Toast.LENGTH_LONG).show()
                             myConnection = true
                         }
-                        activity.navigate(LandingFragment())
+                        activity.navigate(AppFragments.LOGIN)
                     } else {
                         if (myConnection== false) {
                             Toast.makeText(requireContext(), "SE HA VUELTO A CONECTAR", Toast.LENGTH_SHORT).show()
@@ -80,23 +80,13 @@ class LandingFragment : Fragment() {
             val buttonConnect = view.findViewById<Button>(R.id.buttonConnect)
             buttonConnect.setOnClickListener {
                 val activity = requireActivity() as? MainActivity
-                val newFragment: Fragment = LoginFragment()
-                activity?.connect()
-                //bundle only for testing while developing
-                newFragment.apply {
-                    bundleOf(
-                        "email" to "teacher1@email.com",
-                        "password" to "123"
-                    )
+                if (activity != null) {
+                    activity.connect()
+
+                    activity.navigate(AppFragments.LOGIN)
                 }
 
-                if (activity != null) {
-                    activity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainer, newFragment)
-                        .addToBackStack(null)
-                        .commit()
-                }
+
             }
         }
 

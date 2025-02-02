@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.elorrieta.alumnoclient.AppFragments
 import com.elorrieta.alumnoclient.LoginFragment
+import com.elorrieta.alumnoclient.MainActivity
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.StudentProfileFragment
 import com.elorrieta.alumnoclient.TeacherProfileFragment
@@ -35,28 +37,11 @@ class RegisterSocket(private val context: Context)
         socket.on(Events.ON_RESET_PASSWORD_SUCCESSFULL.value) { args ->
             val response = args[0] as JSONObject
 
+            val activity = context as? MainActivity
+            activity?.toaster("El password ha cambiado")
+            activity?.navigate(AppFragments.LOGIN)
+            Log.d(tag, "password changed, switchin to loginfragment")
 
-            val activity = context as? FragmentActivity
-
-            if (activity != null) {
-                activity.runOnUiThread() {
-                    Toast.makeText(
-                        context,
-                        "Password changed",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-
-                val newFragment: Fragment =  LoginFragment()
-Log.d(tag, "password changed, switchin to loginfragment")
-            if (activity != null) {
-                activity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainer, newFragment)
-                    .addToBackStack(null)
-                    .commit()
-            }
 
             }
         }
@@ -92,22 +77,15 @@ Log.d(tag, "password changed, switchin to loginfragment")
 fun resetPassword(oldPass: String, newPass: String){
     Log.d(tag, "Recibido en reset password $oldPass + $newPass")
 
-    val myToast = context as? FragmentActivity?
-    if (myToast != null) {
-        myToast.runOnUiThread() {
-            Toast.makeText(
-                context,
-                "Enviada nueva contrasena",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
+    val activity = context as? MainActivity
+    activity?.toaster("Se han enviado las contrasenas")
+
     val message = JSONObject().apply {
         put("oldPass", oldPass)
         put("newPass", newPass)
     }
 
-    socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
+    socket.emit(Events.ON_RESET_PASSWORD.value, Gson().toJson(message))
 
 
     // activity.findViewById<TextView>(R.id.textView).append("\nAttempt of login with credentials- $message")

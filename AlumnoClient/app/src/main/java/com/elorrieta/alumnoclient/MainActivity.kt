@@ -22,6 +22,7 @@ import com.elorrieta.alumnoclient.socketIO.RegisterSocket
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.net.NetworkCapabilities
+import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.elorrieta.alumnoclient.room.AppDatabase
 import com.elorrieta.alumnoclient.room.RoomUser
@@ -36,9 +37,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var socketClient: SocketClient
     private lateinit var studentSocket: StudentSocket
     private lateinit var loginSocket: LoginSocket
- //   private lateinit var meetingSocket: MeetingSocket
     private lateinit var teacherSocket: TeacherSocket
     private lateinit var registerSocket: RegisterSocket
+    public var remeberFlag: Int = 0
 
 
 
@@ -139,15 +140,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun saveRoomUser(email : String, passwordHashed: String, passwordNotHashed: Int){
+val roomtag = "roomtag"
+        Log.d(roomtag, "ESTO ES EN main ACTIVITY")
+
+        Log.d(roomtag, email)
+        Log.d(roomtag, passwordHashed)
+        Log.d(roomtag, passwordNotHashed.toString())
+        Log.d(roomtag, email)
+        var myRemember = false
 
         val db = AppDatabase.getInstance(this)
-        val myRemember = LoginFragment().hasRemember()
-        lateinit var lastUser: RoomUser
+        if (remeberFlag > 0)
+        {
+            myRemember = true}
+        else {
+            myRemember = false}
 
-        lastUser.email = email
-        lastUser.password = passwordNotHashed.toString()
-        lastUser.remember = myRemember
-        lastUser.lastLogin = System.currentTimeMillis()
+        val lastUser = RoomUser(
+
+            email = email,
+            password = passwordNotHashed.toString(),
+            remember = myRemember,
+            lastLogin = System.currentTimeMillis()
+        )
 
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -192,21 +207,44 @@ class MainActivity : AppCompatActivity() {
         return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
     }
+//I hope this one handles the login change, along passing a bundle if needed
+    fun navigate(fragment: AppFragments, args: Bundle? = null) {
+        val fragmentManager = supportFragmentManager
+        val existingFragment = fragmentManager.findFragmentByTag(fragment.name)
 
-    fun navigate(nextFragment: Fragment)
-    {
-
-     this.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, nextFragment)
-                .addToBackStack(null)
-                .commit()
+        val fragmentToNavigate = existingFragment ?: fragment.newInstance().apply {
+            arguments = args
         }
+
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragmentToNavigate, fragment.name)
+            .addToBackStack(null)
+            .commit()
+    }
+
+
+
+
+//    fun navigate(nextFragment: Fragment)
+//    {
+//
+//     this.supportFragmentManager
+//                .beginTransaction()
+//                .replace(R.id.fragmentContainer, nextFragment)
+//                .addToBackStack(null)
+//                .commit()
+//        }
 
     fun validPasswords(newPass1:String, newPAss2: String)
     {
         Log.d("main", newPass1)
 
 
+    }
+
+    fun toaster(message: String) {
+        runOnUiThread {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
     }
     }

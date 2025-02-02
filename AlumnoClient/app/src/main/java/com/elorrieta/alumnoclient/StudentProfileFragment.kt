@@ -40,6 +40,10 @@ class StudentProfileFragment : Fragment() {
         val buttonHorarios = view.findViewById<Button>(R.id.studentHorarios)
         val buttonCourses = view.findViewById<Button>(R.id.studentCourses)
         val buttonDocs = view.findViewById<Button>(R.id.studentDocs)
+        val buttonPerfil = view.findViewById<Button>(R.id.studentProfile)
+
+        val activity = requireActivity() as? MainActivity
+
 
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
             setDisplayShowHomeEnabled(true)
@@ -47,28 +51,24 @@ class StudentProfileFragment : Fragment() {
             setDisplayUseLogoEnabled(true)
             title = "Panel de Estudiante"
         }
+
+        buttonPerfil.setOnClickListener {
+            activity?.toaster("No esta implementado")
+
+        }
+
         buttonHorarios.setOnClickListener {
+            activity?.toaster("No esta implementado")
 
         }
 
         buttonCourses.setOnClickListener {
-            val activity = requireActivity() as? MainActivity
-            val newFragment: Fragment = CourseFragment()
-            activity?.connect()
-            //bundle only for testing while developing
-            newFragment.apply { bundleOf("email" to "teacher1@email.com", "password" to "123") }
-
-            if (activity != null) {
-                activity.supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainer, newFragment)
-                    .addToBackStack(null)
-                    .commit()
-            }
+            activity?.navigate(AppFragments.COURSE)
         }
 
         // Listener para botón "Documentos"
         buttonDocs.setOnClickListener {
+            activity?.toaster("No esta implementado")
 
         }
     }
