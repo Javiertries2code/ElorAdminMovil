@@ -5,6 +5,27 @@ package com.elorrieta.socketsio.sockets.config
  * the same class as in the Java Server
  */
 enum class Events(val value: String) {
+
+    ON_REGISTER_STUDENT ("ON_REGISTER_STUDENT"),
+   ON_REGISTER_STUDENT_ANSWER("ON_REGISTER_STUDENT_ANSWER"),
+
+    ON_REGISTER_TEACHER ("ON_REGISTER_TEACHER"),
+    ON_REGISTER_TEACHER_ANSWER("ON_REGISTER_TEACHER_ANSWER"),
+
+   ON_USER_NOT_FOUND("ON_USER_NOT_FOUND"),
+    ON_USER_NOT_FOUND_ANSWER("ON_USER_NOT_FOUND_ANSWER"),
+
+    ON_REQUESTING_COURSES("ON_REQUESTING_COURSES"),
+    ON_REQUESTING_COURSES_ANSWER("ON_REQUESTING_COURSES_ANSWER"),
+
+//////////////////////////////////////////// REMEMBER ON RESET WAS ALREADY ON EVENTS
+
+
+    ////
+    ON_RESET_PASSWORD_SUCCESSFULL("ON_RESET_PASSWORD_SUCCESSFULL"),
+    ON_RESET_PASSWORD_FAILER("ON_RESET_PASSWORD_FAILER"),
+    ON_RESET_PASSWORD("ON_RESET_PASSWORD"),
+    ///////////////////////////////////////////
     ON_LOGIN ("onLogin"),
     ON_LOGOUT ("onLogout"),
 
@@ -19,8 +40,7 @@ enum class Events(val value: String) {
 
     ON_LOGIN_SUCCESS_ANSWER ("onLoginCorrectAnswer"),
 
-    ON_RESET_PASSWORD("OnResetPassword"),
-    ON_RESET_PASSWORD_ANSWER("OnResetPasswordAnswer"),
+
 
 
     ON_SUCCESSFUL_REGISTRATION ("onSuccessfulRegistration"),

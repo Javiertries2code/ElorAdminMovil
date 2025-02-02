@@ -181,4 +181,10 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
+    fun validPasswords(newPass1:String, newPAss2: String)
+    {
+        Log.d("main", newPass1)
+
+
+    }
     }

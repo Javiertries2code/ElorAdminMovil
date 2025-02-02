@@ -54,20 +54,20 @@ class LandingFragment : Fragment() {
                     if (isConenected == false) {
                         buttonConnectionChecker?.isEnabled = false
                         if(myConnection == false){
-                            Toast.makeText(requireContext(), "SIN CONEXIÓN", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "NO HAY CONECTIVIDAD", Toast.LENGTH_LONG).show()
                             myConnection = true
                         }
                         activity.navigate(LandingFragment())
                     } else {
-                        if (myConnection) {
-                            Toast.makeText(requireContext(), "CONECTADO", Toast.LENGTH_SHORT).show()
-                            myConnection = false
+                        if (myConnection== false) {
+                            Toast.makeText(requireContext(), "SE HA VUELTO A CONECTAR", Toast.LENGTH_SHORT).show()
+                            myConnection = true
                         }
 
                         buttonConnectionChecker?.isEnabled = true
                     }
                 }
-                delay(500)
+                delay(300)
             }
         }
 

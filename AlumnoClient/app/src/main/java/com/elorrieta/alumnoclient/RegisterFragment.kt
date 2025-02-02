@@ -1,14 +1,20 @@
 package com.elorrieta.alumnoclient
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.elorrieta.alumnoclient.entity.Student
 import com.elorrieta.alumnoclient.entity.Teacher
@@ -27,6 +33,9 @@ private lateinit var passwordEditText: EditText
 private lateinit var registerCiclos: TextView
 private lateinit var registerButton: Button
 private lateinit var registerFoto: Button
+private lateinit var imageView: ImageView
+
+private const val CAPTURA_IMAGEN = 1
 
 private val tag = "RegisterSocket"
 
@@ -55,42 +64,63 @@ class RegisterFragment : Fragment() {
         passwordEditText = view.findViewById(R.id.registerNewPassword)
         registerButton = view.findViewById(R.id.registerSubmit)
         registerCiclos = view.findViewById(R.id.registerCiclos)
+        imageView = view.findViewById(R.id.avatar)
+
+        val btnCamera = view.findViewById<Button>(R.id.registerFoto)
+        btnCamera.setOnClickListener {
+            val packageManager: PackageManager = requireContext().packageManager
+            val cameraAvailable: Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
+
+            if (cameraAvailable) {
+                val hacerFotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                if (hacerFotoIntent.resolveActivity(packageManager) != null) {
+                    startActivityForResult(hacerFotoIntent, CAPTURA_IMAGEN)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "No se encontró una app para capturar imágenes",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Cámara no disponible", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         val toolbar = view.findViewById<MaterialToolbar>(R.id.registerToolbar)
 
-        // Configura el Toolbar como ActionBar
         (requireActivity() as AppCompatActivity).setSupportActionBar(toolbar)
 
-        // Configura el logo y el título
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            setDisplayShowHomeEnabled(true) // Asegúrate de mostrar el logo
-            setLogo(R.drawable.elorrietalogo) // Reemplaza con el recurso de tu logo
-            setDisplayUseLogoEnabled(true) // Habilita el uso del logo
-            title = "Registro" // Establece el título
+            setDisplayShowHomeEnabled(true)
+            setLogo(R.drawable.elorrietalogo)
+            setDisplayUseLogoEnabled(true)
+            title = "Registro"
         }
-
 
         val user = arguments?.getSerializable("user")
 
         when (user) {
             is Student -> {
-                registerCiclos.text = "Mis ciclos"
                 registerCiclos.visibility = View.VISIBLE
-                Log.d(tag, "Student recibido: ${user.name}")
+                registerCiclos.text = "Mis ciclos, pending to retrieve from DB"
+
                 nameEditText.setText(user.name ?: "Sin datos recibidos")
                 surnameEditText.setText(user.lastName ?: "Sin datos recibidos")
                 emailEditText.setText(user.email ?: "Sin datos recibidos")
                 phone1EditText.setText(user.phone1 ?: "Sin datos recibidos")
                 phone2EditText.setText(user.phone2 ?: "Sin datos recibidos")
+                Log.d(tag, "Student recibido: ${user.name}")
             }
             is Teacher -> {
                 registerCiclos.visibility = View.GONE
-                Log.d(tag, "Teacher recibido: ${user.name}")
+
                 nameEditText.setText(user.name ?: "Sin datos recibidos")
                 surnameEditText.setText(user.lastName ?: "Sin datos recibidos")
                 emailEditText.setText(user.email ?: "Sin datos recibidos")
                 phone1EditText.setText(user.phone1 ?: "Sin datos recibidos")
                 phone2EditText.setText(user.phone2 ?: "Sin datos recibidos")
+                Log.d(tag, "Teacher recibido: ${user.name}")
             }
             else -> {
                 Log.e(tag, "No se recibió ningún usuario válido")
@@ -98,48 +128,42 @@ class RegisterFragment : Fragment() {
             }
         }
 
-
-//            Log.d(tag, "Usuario recibido: ${user.name}")
-//            nameEditText.setText(user.name ?: "Sin datos recibidos")
-//            surnameEditText.setText(user.lastName ?: "Sin datos recibidos")
-//            emailEditText.setText(user.email ?: "Sin datos recibidos")
-//            phone1EditText.setText(user.phone1 ?: "Sin datos recibidos")
-//            phone2EditText.setText(user.phone2 ?: "Sin datos recibidos")
-
-
         registerButton.setOnClickListener {
-            //it seems i gotta choose type of student or teacher here
-           val newUser =  SessionManager.getUser()
+            val newUser = SessionManager.getUser()
             when (newUser) {
                 is Student -> {
-                    newUser?.let{ it->
-                        it.name = nameEditText.text.toString()
-                        it.lastName = surnameEditText.text.toString()
-                        it.email = emailEditText.text.toString()
-                      it.phone1 = phone1EditText.text.toString()
-                        it.phone2 = phone2EditText.text.toString()
-                      //  it.passwordNotHashed = passwordEditText.text.toString()
-
-                    }
-                }
-                is Teacher -> {
-                    newUser?.let{ it->
+                    newUser?.let {
                         it.name = nameEditText.text.toString()
                         it.lastName = surnameEditText.text.toString()
                         it.email = emailEditText.text.toString()
                         it.phone1 = phone1EditText.text.toString()
                         it.phone2 = phone2EditText.text.toString()
-                      //  it.passwordNotHashed = passwordEditText.text.toString()
-
+                        thisSocket.registerUser(it)
                     }
-                    thisSocket.registerUser()//it should take it from session manager
-
                 }
-//                when (newUser) {
-//                    is Student -> thisSocket.registerUser(newUser)
-//                    is Teacher -> thisSocket.registerUser(newUser)
-//                    else -> Log.e(tag, "El usuario no es válido para el registro")
-//                }
+                is Teacher -> {
+                    newUser?.let {
+                        it.name = nameEditText.text.toString()
+                        it.lastName = surnameEditText.text.toString()
+                        it.email = emailEditText.text.toString()
+                        it.phone1 = phone1EditText.text.toString()
+                        it.phone2 = phone2EditText.text.toString()
+                        thisSocket.registerUser(it)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CAPTURA_IMAGEN && resultCode == AppCompatActivity.RESULT_OK) {
+            val extras = data?.extras
+            val imageBitmap = extras?.get("data") as? Bitmap
+            if (imageBitmap != null) {
+                imageView.setImageBitmap(imageBitmap)
+            } else {
+                Toast.makeText(requireContext(), "No se pudo obtener la imagen", Toast.LENGTH_SHORT).show()
             }
         }
     }

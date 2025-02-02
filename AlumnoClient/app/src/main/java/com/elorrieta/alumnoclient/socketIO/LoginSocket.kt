@@ -43,6 +43,17 @@ class LoginSocket(private val context: Context) {
 
         socket.on(Events.ON_NOT_REGISTERED.value) { args ->
             val response = args[0] as JSONObject
+
+            val myToast = context as? FragmentActivity?
+            if (myToast != null) {
+                myToast.runOnUiThread() {
+                    Toast.makeText(
+                        context,
+                        "Debe registrarse",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
             Log.d(notRegisteredAnswer, "Coming into socket.on(Events.ON_NOT_REGISTERED.value)")
             Log.d(notRegisteredAnswer, "Tipo de contexto recibido: ${context::class.java.name}")
             Log.d(notRegisteredAnswer, "Tipo de contexto recibido: ${context::class.java.name}")
@@ -153,6 +164,17 @@ class LoginSocket(private val context: Context) {
             val userType = jsonObject["user_type"].asString
             val name = jsonObject["name"].asString
 
+            val myToast = context as? FragmentActivity?
+            if (myToast != null) {
+                myToast.runOnUiThread() {
+                    Toast.makeText(
+                        context,
+                        "Usuario logueado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
             type_user_redirect = userType;
 
             var user: Serializable? = null
@@ -248,8 +270,8 @@ class LoginSocket(private val context: Context) {
     fun doLogin(email: String, password: String) {
         Log.d(tag, "Recibido en dologin $email + $password")
 
-        val activity = context as? FragmentActivity?
         if (email.isNullOrBlank() || password.isNullOrBlank()) {
+            val activity = context as? FragmentActivity?
             if (activity != null) {
                 activity.runOnUiThread() {
                     Toast.makeText(
