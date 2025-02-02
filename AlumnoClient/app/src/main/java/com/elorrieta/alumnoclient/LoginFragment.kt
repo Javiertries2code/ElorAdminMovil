@@ -13,9 +13,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Lifecycle
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
 import androidx.lifecycle.lifecycleScope
+import com.elorrieta.alumnoclient.room.AppDatabase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.google.android.material.appbar.MaterialToolbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class LoginFragment : Fragment() {
@@ -49,12 +52,13 @@ class LoginFragment : Fragment() {
         val loginButton = view.findViewById<Button>(R.id.btnloginRegister)
         val loginResetPasswrod = view.findViewById<Button>(R.id.btnloginResetPasswrod)
 
-        /*
-                finding the toolbar here, seeting it up as actionbar, for some reasons
-                hacemos el setting
+        val db = AppDatabase.getInstance(requireContext()) // ✅ Obtener la instancia correctamente
 
+        // Recuperar el último usuario logueado en un hilo de corrutina
+        lifecycleScope.launch(Dispatchers.IO) {
+            val lastUser = db.roomDao().getLastLoggedUser()
 
-                 */
+                     }
         val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbarLogin)
 
 

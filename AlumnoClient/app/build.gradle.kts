@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+//  ksp plugins
+    alias(libs.plugins.ksp)
+
 }
 
 android {
@@ -39,6 +42,12 @@ android {
 }
 
 dependencies {
+    //for room, will show ksp in red, gottta import dependencies
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+
     //dependencies for libraries
     implementation(libs.androidx.fragment.ktx)
 

@@ -8,16 +8,12 @@ import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import com.elorrieta.alumnoclient.LoginFragment
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
-import com.elorrieta.alumnoclient.socketIO.MeetingSocket
 import com.elorrieta.alumnoclient.socketIO.SocketClient
 import com.elorrieta.alumnoclient.socketIO.StudentSocket
 import com.elorrieta.alumnoclient.socketIO.TeacherSocket
@@ -26,6 +22,10 @@ import com.elorrieta.alumnoclient.socketIO.RegisterSocket
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import android.net.NetworkCapabilities
+import com.elorrieta.alumnoclient.room.AppDatabase
+import com.elorrieta.alumnoclient.room.RoomUser
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
  //   private lateinit var meetingSocket: MeetingSocket
     private lateinit var teacherSocket: TeacherSocket
     private lateinit var registerSocket: RegisterSocket
+
 
 
     private val   mainActivity = "mainActivity"
@@ -59,6 +60,9 @@ class MainActivity : AppCompatActivity() {
         loginSocket = LoginSocket(this)
         loginSocket = LoginSocket(this)
         loginSocket = LoginSocket(this)
+
+
+
 
         /*
         It migh appear quite confusing at first

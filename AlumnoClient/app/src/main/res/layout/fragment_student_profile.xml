@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@color/azulmarino"
+    android:padding="16dp"
     tools:context=".LoginFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -15,125 +14,133 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/toolbarColor"
-        app:titleTextColor="@android:color/white"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/white">
 
-        <ImageView
-            android:id="@+id/studentIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/avatar"
-            android:contentDescription="@string/userIcon"
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginStart="16dp" />
 
-        <TextView
-            android:id="@+id/studentName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estudiante"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginStart="64dp" />
     </com.google.android.material.appbar.MaterialToolbar>
 
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/studentToolbar"
-        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/studentToolbar">
 
         <Button
             android:id="@+id/studentHorarios"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Horarios" />
+            android:text="Horario" />
 
         <Button
             android:id="@+id/studentCourses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cursos"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            android:text="Cursos" />
 
         <Button
             android:id="@+id/studentDocs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Documentos"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            android:text="Docs" />
 
         <Button
             android:id="@+id/studentProfile"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Documentos"
-            android:layout_marginStart="8dp" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:text="Perfil"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/studentProfileName"
+    <TextView
+        android:id="@+id/tituloProfileStudent"
         android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:inputType="text"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentHorarios"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Introduzca su nombre"
-        tools:ignore="NotSibling" />
+        android:layout_height="40dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="52dp"
+        android:background="@color/toolbarColor"
+        android:gravity="center"
+
+
+        android:text="Perfil"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/profileOldPassword"
+        app:layout_constraintEnd_toEndOf="@+id/profileOldPassword"
+        app:layout_constraintStart_toStartOf="@+id/profileOldPassword"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/studentProfileSurname"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:inputType="text"
+        android:id="@+id/profileOldPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfileName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Introduzca sus apellidos" />
+        android:ems="10"
+        android:hint="Ultimo password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/profileNewPassword1"
+        app:layout_constraintEnd_toEndOf="@+id/profileNewPassword1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/profileNewPassword1"
+        app:layout_constraintTop_toBottomOf="@+id/tituloProfileStudent" />
 
     <EditText
-        android:id="@+id/studentProfileEmail"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:inputType="text"
+        android:id="@+id/profileNewPassword1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfileSurname"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Introduzca su mail" />
+        android:ems="10"
+        android:hint="Nuevo password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/profileNewPassword2"
+        app:layout_constraintEnd_toEndOf="@+id/profileNewPassword2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/profileNewPassword2"
+        app:layout_constraintTop_toBottomOf="@+id/profileOldPassword" />
+
 
     <EditText
-        android:id="@+id/studentProfileDni"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:inputType="text"
+        android:id="@+id/profileNewPassword2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfileEmail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="Introduzca su DNI" />
+        android:ems="10"
+        android:hint="Repita password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/studentProfileSubmit"
+        app:layout_constraintEnd_toEndOf="@+id/studentProfileSubmit"
+        app:layout_constraintStart_toStartOf="@+id/studentProfileSubmit"
+        app:layout_constraintTop_toBottomOf="@+id/profileNewPassword1" />
 
     <Button
         android:id="@+id/studentProfileSubmit"
+
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:enabled="false"
-        android:text="@string/enviar"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/studentProfileDni"
-        app:layout_constraintStart_toStartOf="parent"
+        android:enabled="true"
+        android:text="@string/enviar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintHorizontal_bias="0.367"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileNewPassword2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,6 @@
     android:background="@color/azulmarino"
     tools:context=".LoginFragment">
 
-    <!-- Register Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/registerToolbar"
         android:layout_width="match_parent"

@@ -21,4 +21,6 @@
     <string name="sacar_foto">Sacar Foto</string>
     <string name="enviar">Enviar</string>
     <string name="userIcon">se muestra la foto de usuarios logeado</string>
+    <string name="recordar_usuario">Recordar Usuario</string>
+    <string name="olvide_mi_password">Olvide mi password</string>
 </resources>
