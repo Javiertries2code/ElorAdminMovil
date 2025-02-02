@@ -96,10 +96,9 @@
         android:background="@color/white"
         android:hint="Introduzca su mail"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@id/registerDni"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="16dp"
+    android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/avatarContainer"
         tools:ignore="TouchTargetSizeCheck" />
 
@@ -114,7 +113,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="16dp"
+android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/registerEmail"
         tools:ignore="TouchTargetSizeCheck" />
 
@@ -128,7 +127,7 @@
         app:layout_constraintBottom_toTopOf="@id/registerPhone2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="16dp"
+android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/registerDni"
         tools:ignore="TouchTargetSizeCheck" />
 
@@ -142,7 +141,7 @@
         app:layout_constraintBottom_toTopOf="@id/registerCiclos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="16dp"
+android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/registerPhone1"
         tools:ignore="TouchTargetSizeCheck" />
 
@@ -151,12 +150,12 @@
         android:layout_width="300dp"
         android:layout_height="80dp"
         android:background="@color/white"
-        android:text="Cursos"
+        android:text="Cursos\n\nTipo Matricula"
         app:layout_constraintBottom_toTopOf="@id/registerNewPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="16dp"
+android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/registerPhone2" />
 
     <EditText
@@ -170,9 +169,11 @@
         app:layout_constraintBottom_toTopOf="@id/registerNewPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="5dp"
+
+
         app:layout_constraintTop_toBottomOf="@id/registerCiclos"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck"
+        />
 
     <EditText
         android:id="@+id/registerNewPassword"
@@ -185,7 +186,6 @@
         app:layout_constraintBottom_toTopOf="@id/buttonContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_margin="5dp"
         app:layout_constraintTop_toBottomOf="@id/registerNewPassword2"
         tools:ignore="TouchTargetSizeCheck" />
 
