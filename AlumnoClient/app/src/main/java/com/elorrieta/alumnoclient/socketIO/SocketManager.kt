@@ -6,10 +6,10 @@ import io.socket.client.Socket
 
 object SocketManager {
 
-    private const val PORT = "4005"
-    //   private const val IP = "10.0.22.248"
+    private const val PORT = "4003"
+    private const val IP = "10.0.22.43"
 
-   private const val IP = "192.168.1.40"
+    //   private const val IP = "192.168.1.40"
     private const val SERVER_URL = "http://$IP:$PORT"
 
     private var socket: Socket? = null

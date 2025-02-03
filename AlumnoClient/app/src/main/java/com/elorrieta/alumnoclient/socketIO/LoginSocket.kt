@@ -49,12 +49,13 @@ class LoginSocket(private val context: Context) {
 
 
     init {
+       /*
         socket.on(Events.ON_LOGIN_USER_NOT_FOUND_ANSWER.value){
             val activity = context as? MainActivity
             activity?.toaster("Usuario no encontrado en la DB del centro")
 
         }
-
+*/
 
         socket.on(Events.ON_NOT_REGISTERED.value) { args ->
             val response = args[0] as JSONObject
@@ -108,7 +109,7 @@ class LoginSocket(private val context: Context) {
 /////////////////////////////////////////////////////////////NEXT
         /////////////////////////////////////////////////////////////NEXT
         /////////////////////////////////////////////////////////////NEXT
-
+/*
         socket.on(Events.ON_LOGIN_SUCCESS_ANSWER.value) { args ->
             val response = args[0] as JSONObject
 
@@ -174,6 +175,8 @@ class LoginSocket(private val context: Context) {
                 }
             }
         }
+        *\
+ */
     }
 
 

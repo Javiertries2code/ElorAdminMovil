@@ -34,16 +34,7 @@ class RegisterSocket(private val context: Context)
 
     init {
 
-        socket.on(Events.ON_RESET_PASSWORD_SUCCESSFULL.value) { args ->
-            val response = args[0] as JSONObject
 
-            val activity = context as? MainActivity
-            activity?.toaster("El password ha cambiado")
-            activity?.navigate(AppFragments.LOGIN)
-            Log.d(tag, "password changed, switchin to loginfragment")
-
-
-            }
         }
 
 
@@ -93,4 +84,6 @@ fun resetPassword(oldPass: String, newPass: String){
 
 
 }
-}
+
+
+    }

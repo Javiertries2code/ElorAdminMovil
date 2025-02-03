@@ -1,5 +1,8 @@
 package com.elorrieta.alumnoclient
 
+
+import android.Manifest
+
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -16,6 +19,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.elorrieta.alumnoclient.entity.Student
 import com.elorrieta.alumnoclient.entity.Teacher
 import com.elorrieta.alumnoclient.session.SessionManager
@@ -33,9 +38,13 @@ private lateinit var passwordEditText: EditText
 private lateinit var registerCiclos: TextView
 private lateinit var registerButton: Button
 private lateinit var registerFoto: Button
-private lateinit var imageView: ImageView
+private lateinit var fotoImageView: ImageView
+
 
 private const val CAPTURA_IMAGEN = 1
+
+private const val PERMISSION_CAMERA_REQUEST = 1
+
 
 private val tag = "RegisterSocket"
 
@@ -64,27 +73,48 @@ class RegisterFragment : Fragment() {
         passwordEditText = view.findViewById(R.id.registerNewPassword)
         registerButton = view.findViewById(R.id.registerSubmit)
         registerCiclos = view.findViewById(R.id.registerCiclos)
-        imageView = view.findViewById(R.id.avatar)
+        fotoImageView = view.findViewById(R.id.avatar)
+
+        val packageManager: PackageManager = requireContext().packageManager
+        val cameraAvailable: Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
+           val activity = requireActivity() as? MainActivity
+
+
+
 
         val btnCamera = view.findViewById<Button>(R.id.registerFoto)
         btnCamera.setOnClickListener {
-            val packageManager: PackageManager = requireContext().packageManager
-            val cameraAvailable: Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 
-            if (cameraAvailable) {
-                val hacerFotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                if (hacerFotoIntent.resolveActivity(packageManager) != null) {
-                    startActivityForResult(hacerFotoIntent, CAPTURA_IMAGEN)
+            if (isCameraPermissionGranted()) {
+                //
+                if (cameraAvailable) {
+
+                    try {
+                        val hacerFotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(hacerFotoIntent, CAPTURA_IMAGEN) // Código que puede lanzar una excepción
+                    } catch (e: Exception) {
+                        Toast.makeText(requireContext(), "Ha cascado la camara, lo he metido en un try cacth", Toast.LENGTH_SHORT).show()
+
+                        Log.d("RegisterFoto", e.toString())
+                    }
+
+
+
+
+
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "No se encontró una app para capturar imágenes",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(requireContext(), "Cámara no disponible", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(requireContext(), "Cámara no disponible", Toast.LENGTH_SHORT).show()
+                if (activity != null) {
+                    ActivityCompat.requestPermissions(
+                        activity,
+                        arrayOf(Manifest.permission.CAMERA),
+                        PERMISSION_CAMERA_REQUEST
+                    )
+                }
             }
+
         }
 
         val toolbar = view.findViewById<MaterialToolbar>(R.id.registerToolbar)
@@ -155,13 +185,46 @@ class RegisterFragment : Fragment() {
         }
     }
 
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == PERMISSION_CAMERA_REQUEST) {
+            if (isCameraPermissionGranted()) {
+                // start camera
+            } else {
+                Log.e("cameraLog", "no camera permission")
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    private fun isCameraPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext() ,
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        Log.d("RegisterFoto", "Entra en onActivityResult")
+
         if (requestCode == CAPTURA_IMAGEN && resultCode == AppCompatActivity.RESULT_OK) {
+            Log.d("RegisterFoto", "Ha sacado la foto y la manda al avatar... pero casca")
+
             val extras = data?.extras
             val imageBitmap = extras?.get("data") as? Bitmap
             if (imageBitmap != null) {
-                imageView.setImageBitmap(imageBitmap)
+                Toast.makeText(requireContext(), "ha sacado la foto y la manda al avatar... pero casca", Toast.LENGTH_SHORT).show()
+Log.d("RegisterFoto", "Ha sacado la foto y la manda al avatar... pero casca")
+                fotoImageView.setImageBitmap(imageBitmap)
             } else {
                 Toast.makeText(requireContext(), "No se pudo obtener la imagen", Toast.LENGTH_SHORT).show()
             }
