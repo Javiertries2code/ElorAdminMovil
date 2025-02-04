@@ -262,6 +262,8 @@ class SocketClient(private val activity: AppCompatActivity) {
                     }
                     SessionManager.setUser(student)
                     user = student
+                    myActivity?.saveRoomUser(email, passwordHashed, passwordNotHashed)
+
                     val bundle = Bundle().apply {
                         putSerializable("user", user)
                     }
@@ -277,6 +279,7 @@ class SocketClient(private val activity: AppCompatActivity) {
                     }
                     SessionManager.setUser(teacher)
                     user = teacher
+                    myActivity?.saveRoomUser(email, passwordHashed, passwordNotHashed)
                     val bundle = Bundle().apply {
                         putSerializable("user", user)
                     }

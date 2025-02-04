@@ -17,6 +17,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -43,6 +44,7 @@ private lateinit var registerCiclos: TextView
 private lateinit var registerButton: Button
 private lateinit var registerFoto: Button
 private lateinit var fotoImageView: ImageView
+
 
 
 private const val CAPTURA_IMAGEN = 1
