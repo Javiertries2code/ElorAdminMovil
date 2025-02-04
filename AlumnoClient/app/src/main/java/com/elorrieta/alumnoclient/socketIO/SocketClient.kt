@@ -60,6 +60,11 @@ class SocketClient(private val activity: AppCompatActivity) {
 
             val id = jsonObject["id"].asInt
             val email = jsonObject["email"].asString
+            val lastName = jsonObject["lastName"].asString
+            val phone1 = jsonObject["phone1"].asString
+            val phone2 = jsonObject["phone2"].asString
+            val dni = jsonObject["dni"].asString
+            val address = jsonObject["address"].asString
             val passwordNotHashed = jsonObject["passwordNotHashed"].asInt
             val passwordHashed = jsonObject["passwordHashed"].asString
             val userType = jsonObject["user_type"].asString
@@ -91,6 +96,11 @@ class SocketClient(private val activity: AppCompatActivity) {
                         idStudent = id
                         this.name = name
                         this.email = email
+                        this.lastName = lastName
+                        this.phone1 = phone1
+                        this.phone2 = phone2
+                        this.dni = dni
+                        this.address = address
                         this.passwordNotHashed = passwordNotHashed
                         this.passwordHashed = passwordHashed
                     }
@@ -106,6 +116,11 @@ class SocketClient(private val activity: AppCompatActivity) {
                         idTeacher = id
                         this.name = name
                         this.email = email
+                        this.lastName = lastName
+                        this.phone1 = phone1
+                        this.phone2 = phone2
+                        this.dni = dni
+                        this.address = address
                         this.passwordNotHashed = passwordNotHashed
                         this.passwordHashed = passwordHashed
                     }
@@ -129,12 +144,17 @@ class SocketClient(private val activity: AppCompatActivity) {
             val gson = Gson()
             val jsonObject = gson.fromJson(message, JsonObject::class.java)
 
-            val id = jsonObject.get("id")?.asInt ?: -1
-            val email = jsonObject.get("email")?.asString ?: "Sin Datos"
-            val passwordNotHashed = jsonObject.get("passwordNotHashed")?.asInt ?: 0
-            val passwordHashed = jsonObject.get("passwordHashed")?.asString ?: "Sin Datos"
-            val userType = jsonObject.get("user_type")?.asString ?: "Sin Datos"
-            val name = jsonObject.get("name")?.asString ?: "Sin Datos"
+            val id = jsonObject["id"].asInt
+            val email = jsonObject["email"].asString
+            val lastName = jsonObject["lastName"].asString
+            val phone1 = jsonObject["phone1"].asString
+            val phone2 = jsonObject["phone2"].asString
+            val dni = jsonObject["dni"].asString
+            val address = jsonObject["address"].asString
+            val passwordNotHashed = jsonObject["passwordNotHashed"].asInt
+            val passwordHashed = jsonObject["passwordHashed"].asString
+            val userType = jsonObject["user_type"].asString
+            val name = jsonObject["name"].asString
 
             var user: Serializable? = null
 
@@ -146,6 +166,11 @@ class SocketClient(private val activity: AppCompatActivity) {
                         idStudent = id
                         this.name = name
                         this.email = email
+                        this.lastName = lastName
+                        this.phone1 = phone1
+                        this.phone2 = phone2
+                        this.dni = dni
+                        this.address = address
                         this.passwordNotHashed = passwordNotHashed
                         this.passwordHashed = passwordHashed
                     }
@@ -159,6 +184,11 @@ class SocketClient(private val activity: AppCompatActivity) {
                         idTeacher = id
                         this.name = name
                         this.email = email
+                        this.lastName = lastName
+                        this.phone1 = phone1
+                        this.phone2 = phone2
+                        this.dni = dni
+                        this.address = address
                         this.passwordNotHashed = passwordNotHashed
                         this.passwordHashed = passwordHashed
                     }

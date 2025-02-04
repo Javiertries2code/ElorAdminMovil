@@ -8,7 +8,7 @@ data class Student(
     var email: String? = null,
     var passwordHashed: String? = null,
     var passwordNotHashed: Int? = null,
-    val dni: String? = null,
+    var dni: String? = null,
     var name: String? = null,
     var lastName: String? = null,
     var address: String? = null,
