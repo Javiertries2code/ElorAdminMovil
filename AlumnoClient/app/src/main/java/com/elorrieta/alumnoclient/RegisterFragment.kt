@@ -35,6 +35,8 @@ private lateinit var emailEditText: EditText
 private lateinit var phone1EditText: EditText
 private lateinit var phone2EditText: EditText
 private lateinit var passwordEditText: EditText
+private lateinit var password2EditText: EditText
+
 private lateinit var registerCiclos: TextView
 private lateinit var registerButton: Button
 private lateinit var registerFoto: Button
@@ -71,9 +73,22 @@ class RegisterFragment : Fragment() {
         phone1EditText = view.findViewById(R.id.registerPhone1)
         phone2EditText = view.findViewById(R.id.registerPhone2)
         passwordEditText = view.findViewById(R.id.registerNewPassword)
+        password2EditText = view.findViewById(R.id.registerNewPassword2)
+
         registerButton = view.findViewById(R.id.registerSubmit)
         registerCiclos = view.findViewById(R.id.registerCiclos)
         fotoImageView = view.findViewById(R.id.avatar)
+        var listaEdits = listOf(nameEditText, surnameEditText, emailEditText, phone1EditText, phone2EditText, passwordEditText,password2EditText)
+
+        var emptyEdits = 0
+        for (item in listaEdits) {
+            if (item.text.isNullOrBlank())
+                emptyEdits++
+        }
+        if (emptyEdits > 0)
+            Toast.makeText(requireContext(), "Alguno de los campos solicitados está vacío", Toast.LENGTH_SHORT).show()
+
+
 
         val packageManager: PackageManager = requireContext().packageManager
         val cameraAvailable: Boolean = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
@@ -133,23 +148,29 @@ class RegisterFragment : Fragment() {
         when (user) {
             is Student -> {
                 registerCiclos.visibility = View.VISIBLE
-                registerCiclos.text = "Mis ciclos, pending to retrieve from DB"
+                registerCiclos.text = "Mis ciclos,  y matricula"
 
-                nameEditText.setText(user.name ?: "Sin datos recibidos")
-                surnameEditText.setText(user.lastName ?: "Sin datos recibidos")
-                emailEditText.setText(user.email ?: "Sin datos recibidos")
-                phone1EditText.setText(user.phone1 ?: "Sin datos recibidos")
-                phone2EditText.setText(user.phone2 ?: "Sin datos recibidos")
+                nameEditText.setText(user.name ?: "")
+                surnameEditText.setText(user.lastName ?: "")
+                emailEditText.setText(user.email ?: "")
+                phone1EditText.setText(user.phone1 ?: "")
+                phone2EditText.setText(user.phone2 ?: "")
+                passwordEditText.setText(user.phone2 ?: "")
+                password2EditText.setText(user.phone2 ?: "")
+
+
                 Log.d(tag, "Student recibido: ${user.name}")
             }
             is Teacher -> {
                 registerCiclos.visibility = View.GONE
 
-                nameEditText.setText(user.name ?: "Sin datos recibidos")
-                surnameEditText.setText(user.lastName ?: "Sin datos recibidos")
-                emailEditText.setText(user.email ?: "Sin datos recibidos")
-                phone1EditText.setText(user.phone1 ?: "Sin datos recibidos")
-                phone2EditText.setText(user.phone2 ?: "Sin datos recibidos")
+                nameEditText.setText(user.name ?: "")
+                surnameEditText.setText(user.lastName ?: "")
+                emailEditText.setText(user.email ?: "")
+                phone1EditText.setText(user.phone1 ?: "")
+                phone2EditText.setText(user.phone2 ?: "")
+                passwordEditText.setText(user.phone2 ?: "")
+                password2EditText.setText(user.phone2 ?: "")
                 Log.d(tag, "Teacher recibido: ${user.name}")
             }
             else -> {
@@ -159,6 +180,27 @@ class RegisterFragment : Fragment() {
         }
 
         registerButton.setOnClickListener {
+Log.d("registerButton", "entra en la funcion")
+            for (item in listaEdits) {
+                if (item.text.isNullOrBlank()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Completa todos los campos obligatorios",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@setOnClickListener
+                }
+            }
+            Log.d("registerButton", "llama a same password")
+
+            if (samePassword(passwordEditText.text.toString(),password2EditText.text.toString(), "123" )==true)
+            {
+                //Log.d("registerButton", "Las contraseñas deben ser iguales, y diferentes a la Default")
+
+               // Toast.makeText(requireContext(), "Las contraseñas deben ser iguales, y diferentes a la Default", Toast.LENGTH_SHORT).show()
+
+                return@setOnClickListener
+            }
             val newUser = SessionManager.getUser()
             when (newUser) {
                 is Student -> {
@@ -168,6 +210,8 @@ class RegisterFragment : Fragment() {
                         it.email = emailEditText.text.toString()
                         it.phone1 = phone1EditText.text.toString()
                         it.phone2 = phone2EditText.text.toString()
+                       it.passwordHashed= passwordEditText.text.toString()
+                      it.passwordNotHashed = password2EditText.text.toString().toIntOrNull()
                         thisSocket.registerUser(it)
                     }
                 }
@@ -184,6 +228,21 @@ class RegisterFragment : Fragment() {
             }
         }
     }
+//Aint sure the ribrica means  checking default password on db
+    fun samePassword(pass1: String, pass2: String, pass3: String? = null): Boolean {
+
+    Log.d("registerButton", "Dentro de same password")
+
+    if (pass1 != pass2 ) {
+            Toast.makeText(requireContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+            return true
+        }else if (null != pass3 && pass1 == pass3){
+            Toast.makeText(requireContext(), "Las contraseñas coinciden con la designada por defecto", Toast.LENGTH_SHORT).show()
+            return true
+        }else
+            return false
+    }
+
 
 
     override fun onRequestPermissionsResult(
