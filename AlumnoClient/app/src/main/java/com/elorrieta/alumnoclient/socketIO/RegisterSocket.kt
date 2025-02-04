@@ -39,30 +39,44 @@ class RegisterSocket(private val context: Context)
 
 
 
-
-    fun domyStuff() {
-        socket.emit(Events.ON_GET_ALL_MEETINGS.value)
-        Log.d(tag, "Requesting all meetings...")
-    }
+//
 
     fun registerUser(teacher: Teacher) {
-        Log.d(tag, "Recibido en dologin $teacher")
+        Log.d(tag, "Recibido en registerUser ->teacher ->$teacher")
         val message = JSONObject().apply {
-            put("teacher", teacher)
+            put("email", teacher.email)
+            put("name", teacher.name)
+            put("lastName", teacher.lastName)
+            put("address", teacher.address)
+            put("phone1", teacher.phone1)
+            put("phone2", teacher.phone2)
+            put("dni", teacher.dni)
+            put("user_type", teacher.user_type)
+            put("passwordHashed", teacher.passwordHashed)
+            put("passwordNotHashed", teacher.passwordNotHashed)
         }
         socket.emit(Events.ON_REGISTER_TEACHER.value, Gson().toJson(message))
 
-        Log.d(tag, "Attempt  to register- $message")
-
+        Log.d(tag, "Attempt to register- $message")
     }
+
     fun registerUser(student: Student) {
-        Log.d(tag, "Recibido en dologin $student")
+        Log.d(tag, "Recibido en registerUser ->student $student")
         val message = JSONObject().apply {
-            put("teacher", student)
+            put("email", student.email)
+            put("name", student.name)
+            put("lastName", student.lastName)
+            put("address", student.address)
+            put("phone1", student.phone1)
+            put("phone2", student.phone2)
+            put("dni", student.dni)
+            put("user_type", student.user_type)
+            put("passwordHashed", student.passwordHashed)
+            put("passwordNotHashed", student.passwordNotHashed)
         }
         socket.emit(Events.ON_REGISTER_STUDENT.value, Gson().toJson(message))
 
-        Log.d(tag, "Attempt  to register- $message")
+        Log.d(tag, "Attempt to register- $message")
     }
 
 fun resetPassword(oldPass: String, newPass: String){

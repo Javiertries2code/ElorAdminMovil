@@ -32,6 +32,9 @@ class SocketClient(private val activity: AppCompatActivity) {
     private var tag = "socket.io"
 
     init {
+
+
+     ///////////////////////////////////////////////////////////////////////////
         socket.on(Socket.EVENT_CONNECT) {
             Log.d(tag, "Connected...")
         }
@@ -44,7 +47,9 @@ class SocketClient(private val activity: AppCompatActivity) {
             Log.e(tag, "ERROR:${args[0]}")
             Log.d(tag, "Disconnected...")
         }
+//////////////////////////////////////////////////////////////////////////
 
+        /////////////////////////////////
         socket.on(Events.ON_LOGIN_USER_NOT_FOUND_ANSWER.value) {
             val activity = activity as? MainActivity
             activity?.toaster("Usuario no encontrado en la DB del centro")
@@ -133,6 +138,9 @@ class SocketClient(private val activity: AppCompatActivity) {
                 }
             }
         }
+
+
+        //////////////////////////////////////////
 
         //////////////////////////////////////////////
         socket.on(Events.ON_NOT_REGISTERED.value) { args ->
@@ -278,9 +286,14 @@ class SocketClient(private val activity: AppCompatActivity) {
         }
 
 ////////////////////////////////////////////////////////////
-        socket.on(Events.ON_RESET_PASSWORD_SUCCESSFULL.value) { args ->
+        socket.on(Events.ON_UPDATE_ANSWER_SUCCESS.value) { args ->
+            val response = args[0] as JSONObject
+
             val activity = activity as? MainActivity
-            activity?.toaster("Se ha restablecido la contraseña correctamente")
+            activity?.toaster("eL USUARIO SE HA REGISTRADO")
+            activity?.navigate(AppFragments.LOGIN)
+            Log.d(tag, "password changed, switchin to loginfragment")
+
         }
         ////////////////////////////////////////
         socket.on(Events.ON_RESET_PASSWORD_SUCCESSFULL.value) { args ->
@@ -290,7 +303,6 @@ class SocketClient(private val activity: AppCompatActivity) {
             activity?.toaster("El password ha cambiado")
             activity?.navigate(AppFragments.LOGIN)
             Log.d(tag, "password changed, switchin to loginfragment")
-
 
         }
      /////////////////////////////////////////////////

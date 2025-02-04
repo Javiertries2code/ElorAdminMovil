@@ -54,10 +54,10 @@ class LandingFragment : Fragment() {
                     if (isConenected == false) {
                         buttonConnectionChecker?.isEnabled = false
                         if(myConnection == false){
-                            Toast.makeText(requireContext(), "NO HAY CONECTIVIDAD", Toast.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(), "NO HAY CONECTIVIDAD", Toast.LENGTH_SHORT).show()
                             myConnection = true
                         }
-                        activity.navigate(AppFragments.LOGIN)
+                        activity.navigate(AppFragments.LANDING)
                     } else {
                         if (myConnection== false) {
                             Toast.makeText(requireContext(), "SE HA VUELTO A CONECTAR", Toast.LENGTH_SHORT).show()

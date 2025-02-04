@@ -192,8 +192,8 @@ class RegisterFragment : Fragment() {
                 emailEditText.setText(user.email ?: "")
                 phone1EditText.setText(user.phone1 ?: "")
                 phone2EditText.setText(user.phone2 ?: "")
-                passwordEditText.setText(user.phone2 ?: "")
-                password2EditText.setText(user.phone2 ?: "")
+                passwordEditText.setText(user.passwordNotHashed.toString() ?: "")
+                password2EditText.setText(user.passwordNotHashed.toString() ?: "")
                 dniEditText.setText(user.dni ?: "")
                 addressEditText.setText(user.address ?: "")
                 Log.d(tag, "Teacher recibido: ${user.name}")
@@ -234,6 +234,7 @@ class RegisterFragment : Fragment() {
             val newUser = SessionManager.getUser()
             when (newUser) {
                 is Student -> {
+                    val student = newUser as? Student
                     newUser?.let {
                         it.name = nameEditText.text.toString()
                         it.lastName = surnameEditText.text.toString()
@@ -241,7 +242,7 @@ class RegisterFragment : Fragment() {
                         it.phone1 = phone1EditText.text.toString()
                         it.phone2 = phone2EditText.text.toString()
                         it.passwordHashed = passwordEditText.text.toString()
-                        it.passwordNotHashed = password2EditText.text.toString().toIntOrNull()
+                        it.passwordNotHashed = passwordEditText.text.toString().toIntOrNull()
                         it.dni = dniEditText.text.toString()
                         it.address = addressEditText.text.toString()
                         thisSocket.registerUser(it)
@@ -249,16 +250,22 @@ class RegisterFragment : Fragment() {
                 }
 
                 is Teacher -> {
+                    val teacher = newUser as? Teacher
                     newUser?.let {
                         it.name = nameEditText.text.toString()
                         it.lastName = surnameEditText.text.toString()
                         it.email = emailEditText.text.toString()
                         it.phone1 = phone1EditText.text.toString()
                         it.phone2 = phone2EditText.text.toString()
+                        it.passwordHashed = passwordEditText.text.toString()
+                        it.passwordNotHashed = passwordEditText.text.toString().toIntOrNull()
+                        it.dni = dniEditText.text.toString()
+                        it.address = addressEditText.text.toString()
                         thisSocket.registerUser(it)
                     }
                 }
             }
+
         }
     }
 

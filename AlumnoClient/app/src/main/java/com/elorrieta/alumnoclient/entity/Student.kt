@@ -18,3 +18,5 @@ data class Student(
     var user_type: String? = null,
     var registrations: Set<Any> = emptySet()
 ): Serializable
+
+
