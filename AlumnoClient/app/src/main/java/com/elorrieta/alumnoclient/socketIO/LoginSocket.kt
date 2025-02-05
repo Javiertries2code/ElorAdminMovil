@@ -218,12 +218,11 @@ class LoginSocket(private val context: Context) {
             put("email", email)
         }
         val activity = context as? MainActivity?
-        activity?.toaster("Se ha enviado la solicitud de recuperacion de contrasena")
+        val  toaster ="Se ha enviado la solicitud de recuperacion de contrasena"
+        activity?.runOnUiThread {
+            (activity as? MainActivity)?.toaster(toaster)
+        }
         socket.emit(Events.ON_RESET_PASSWORD.value, Gson().toJson(message))
-
-
-
-
         activity?.navigate(AppFragments.LOGIN)
 
         //  activity.findViewById<TextView>(R.id.textView).append("\nAttempt of reset password with email- $message")

@@ -211,6 +211,8 @@ class RegisterFragment : Fragment() {
             Log.d("registerButton", "entra en la funcion")
             for (item in listaEdits) {
                 if (item.text.isNullOrBlank()) {
+                    Log.d("registerButton", "Ha encontrado campos vacios")
+
                     Toast.makeText(
                         requireContext(),
                         "Completa todos los campos obligatorios",
@@ -277,10 +279,14 @@ class RegisterFragment : Fragment() {
         Log.d("registerButton", "Dentro de same password")
 
         if (pass1 != pass2) {
+            Log.d("registerButton", "Las contraseñas no coinciden")
+
             Toast.makeText(requireContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT)
                 .show()
             return true
         } else if (null != pass3 && pass1 == pass3) {
+            Log.d("registerButton", "Las contraseñas coinciden con la designada por defecto")
+
             Toast.makeText(
                 requireContext(),
                 "Las contraseñas coinciden con la designada por defecto",
