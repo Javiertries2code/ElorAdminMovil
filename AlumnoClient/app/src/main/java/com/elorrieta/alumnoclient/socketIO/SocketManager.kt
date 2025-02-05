@@ -6,7 +6,7 @@ import io.socket.client.Socket
 
 object SocketManager {
 
-    private const val PORT = "4001"
+    private const val PORT = "4005"
     //   private const val IP = "10.0.22.43"
 
       private const val IP = "192.168.1.40"

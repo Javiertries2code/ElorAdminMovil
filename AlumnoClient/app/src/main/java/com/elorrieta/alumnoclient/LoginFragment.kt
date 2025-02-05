@@ -57,6 +57,7 @@ class LoginFragment : Fragment() {
         val loginResetPasswrod = view.findViewById<Button>(R.id.btnloginResetPasswrod)
 
         val db = AppDatabase.getInstance(requireContext()) // ✅ Obtener la instancia correctamente
+        val activity = activity as? MainActivity
 
 //////////////////////////////////////
 
@@ -120,17 +121,17 @@ class LoginFragment : Fragment() {
 
         loginResetPasswrod.setOnClickListener {
             val usernameSent = usernameTextView.text.toString()
-            Log.d(loginFragment, "it clicked call resetPassword, deliverin $usernameSent")
-//look the notes on exrtension functions, this is just checking the null before,
-// //as there was a mismatch Sting String?
-            loginSocket.resetPassword(usernameSent)
-
-            Log.d(loginFragment, "Des it even return from the call, it should change frangment")
-
-            lifecycleScope.launch {
-                delay(3000) // Espera 3 segundos sin bloquear la UI
-
+            if (usernameSent.isNullOrBlank())
+            {
+                activity?.toaster("Debe rellenarse el campo email");
             }
+
+                    loginSocket.resetPassword(usernameSent)
+                           // Log.d(loginFragment, "it clicked call resetPassword, deliverin $usernameSent")
+
+
+
+
         }
 
 

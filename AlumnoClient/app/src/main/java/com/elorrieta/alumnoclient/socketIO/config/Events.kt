@@ -22,7 +22,7 @@ enum class Events(val value: String) {
 
 //////////////////////////////////////////// REMEMBER ON RESET WAS ALREADY ON EVENTS
 
-
+ ON_CHANGE_NO_MAIL("ON_CHANGE_NO_MAIL"),
     ////
     ON_RESET_PASSWORD_SUCCESSFULL("ON_RESET_PASSWORD_SUCCESSFULL"),
     ON_RESET_PASSWORD_FAILER("ON_RESET_PASSWORD_FAILER"),

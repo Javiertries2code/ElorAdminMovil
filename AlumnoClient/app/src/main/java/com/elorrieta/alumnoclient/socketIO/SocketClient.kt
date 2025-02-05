@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.FragmentActivity
 import com.elorrieta.alumnoclient.AppFragments
 import com.elorrieta.alumnoclient.MainActivity
@@ -34,6 +35,18 @@ class SocketClient(private val activity: AppCompatActivity) {
     init {
 
 
+        socket.on(Events.ON_CHANGE_NO_MAIL.value) {
+            val activity = activity as? MainActivity
+            activity?.toaster("Se ha completado la accion de cambio de contrasena y No se envio de email")
+        }
+        socket.on(Events.ON_RESET_PASSWORD_SUCCESSFULL.value) {
+            val activity = activity as? MainActivity
+            activity?.toaster("Se habra enviado un email con su nueva conrasena")
+        }
+        socket.on(Events.ON_RESET_PASSWORD_SUCCESSFULL.value) {
+            val activity = activity as? MainActivity
+            activity?.toaster("Si el usuario existe, se habra enviado un email con su nueva conrasena")
+        }
      ///////////////////////////////////////////////////////////////////////////
         socket.on(Socket.EVENT_CONNECT) {
             Log.d(tag, "Connected...")
@@ -48,14 +61,25 @@ class SocketClient(private val activity: AppCompatActivity) {
             Log.d(tag, "Disconnected...")
         }
 //////////////////////////////////////////////////////////////////////////
+        socket.on(Events.ON_RESET_PASSWORD_SUCCESSFULL.value) {
+            val activity = activity as? MainActivity
+            activity?.toaster("Si el usuario existe, se habra enviado un email con su nueva conrasena")
+        }
 
         /////////////////////////////////
         socket.on(Events.ON_LOGIN_USER_NOT_FOUND_ANSWER.value) {
             val activity = activity as? MainActivity
+
             activity?.toaster("Usuario no encontrado en la DB del centro")
         }
+/////////////////////////////////////////////
 
+        socket.on(Events.ON_RESET_PASSWORD_FAILER.value) {
+            val activity = activity as? MainActivity
+            activity?.toaster("Nose ha podido realizar la operacion")
+        }
         ///////////////////////////////////////////////////////////////////////////
+       /* it was doubled
         socket.on(Events.ON_LOGIN_SUCCESS_ANSWER.value) { args ->
             val response = args[0] as JSONObject
 
@@ -138,7 +162,7 @@ class SocketClient(private val activity: AppCompatActivity) {
                 }
             }
         }
-
+*/
 
         //////////////////////////////////////////
 
@@ -288,12 +312,23 @@ class SocketClient(private val activity: AppCompatActivity) {
             }
         }
 
+        ///////////////////////////////////////////////////////
+        socket.on(Events.ON_UPDATE_ANSWER_FAILURE.value) { args ->
+            val response = args[0] as JSONObject
+
+            val activity = activity as? MainActivity
+            activity?.toaster("No se ha podido registrar al usuario")
+          //  activity?.navigate(AppFragments.LOGIN)
+            Log.d(tag, "password changed, switchin to loginfragment")
+
+        }
+
 ////////////////////////////////////////////////////////////
         socket.on(Events.ON_UPDATE_ANSWER_SUCCESS.value) { args ->
             val response = args[0] as JSONObject
 
             val activity = activity as? MainActivity
-            activity?.toaster("eL USUARIO SE HA REGISTRADO")
+            activity?.toaster("El usuario se ha registrado con exito")
             activity?.navigate(AppFragments.LOGIN)
             Log.d(tag, "password changed, switchin to loginfragment")
 
